@@ -23,6 +23,7 @@ public class Message implements IMessage {
     @Lob
     private String stackTrace;
     private String exceptionTime;
+    private String applicationId;
     
     @Transient
     private ZonedDateTime exceptionDateTime;
@@ -99,6 +100,14 @@ public class Message implements IMessage {
     @Override
     public void setExceptionTime(String exceptionTime) {
         this.exceptionTime = exceptionTime;
+    }
+    @Override
+    public String getApplicationId() {
+        return applicationId;
+    }
+    @Override
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
     }
     @Override
     public ZonedDateTime getExceptionDateTime() {

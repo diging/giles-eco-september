@@ -1,7 +1,5 @@
 package edu.asu.diging.gilesecosystem.september.core.service.impl;
 
-import java.time.ZonedDateTime;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,7 @@ public class RequestProcessor implements IRequestProcessor {
         msg.setStackTrace(request.getStackTrace());
         msg.setType(MessageType.getByValue(request.getMessageType()));
         msg.setExceptionTime(request.getMessageTime());
+        msg.setApplicationId(request.getApplicationId());
         
         try {
             dbClient.store(msg);

@@ -49,5 +49,4 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(4);
     }
-
 }

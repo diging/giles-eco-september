@@ -37,4 +37,8 @@ public interface IMessage extends IStorableObject {
 
     public abstract String getExceptionTimePrint();
 
+    public abstract void setApplicationId(String applicationId);
+
+    public abstract String getApplicationId();
+
 }

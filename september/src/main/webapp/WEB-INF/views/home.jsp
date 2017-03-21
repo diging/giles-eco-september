@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 
 <sec:authorize access="isAnonymous()">
@@ -22,21 +22,59 @@ $(function() {
  });
 </script>
 <sec:authorize access="isAuthenticated()">
+
+<c:set var="prev" value="${currentPageValue-1 >= 0 ? currentPageValue-1 : 0 }" />
+<c:set var="next" value="${currentPageValue+1 < totalPages ? currentPageValue+1 : totalPages-1 }" />
+
+<nav aria-label="Page navigation" class="pull-right">
+  <ul class="pagination">
+    <li>
+      <a href="<c:url value="?page=${prev}" />" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+<c:forEach begin="1" end="${totalPages}" varStatus="loop">
+<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+</c:forEach>
+   <li>
+      <a href="<c:url value="?page=${next}" />" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="clearfix"></div>
 <c:forEach items="${messages}" var="msg">
 <div class="panel panel-default" style="max-height: 200px; overflow-y: scroll;">
   <div class="panel-body">
-    <span class="date2">${msg.exceptionTimePrint}</span>
-	<p style="padding-bottom: 5px; border-bottom-width: 1px;border-bottom-color: #eaeaea; border-bottom-style: solid;">
-	<c:if test="${msg.type == 'ERROR' }">
+    <span class="label label-primary"><spring:message code="appname.${msg.applicationId}" /></span> <span class="date2">${msg.exceptionTimePrint}</span>
+    <p style="padding-bottom: 5px; border-bottom-width: 1px;border-bottom-color: #eaeaea; border-bottom-style: solid;">
+    <c:if test="${msg.type == 'ERROR' }">
     <span class="label label-danger">Error</span> 
     </c:if>
     <b>${msg.message}</b>
-	</p>
-	<p>${msg.stackTrace}</p>
+    </p>
+    <p>${msg.stackTrace}</p>
   </div>
 </div>
-
-
-
 </c:forEach>
+
+<nav aria-label="Page navigation" class="pull-right">
+  <ul class="pagination">
+    <li>
+      <a href="<c:url value="?page=${prev}" />" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+<c:forEach begin="1" end="${totalPages}" varStatus="loop">
+<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+</c:forEach>
+   <li>
+      <a href="<c:url value="?page=${next}" />" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 </sec:authorize>
