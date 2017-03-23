@@ -18,11 +18,11 @@
         <admin.password>admin</admin.password>
 
         <log.level>debug</log.level>
-        
+
         <september.kafka.hosts>localhost:9092</september.kafka.hosts>
 
         <september.db_files></september.db_files>
-        
+
         <!-- Tomcat deployment -->
         <tomcat.server.id></tomcat.server.id>
         <tomcat.path></tomcat.path>
@@ -78,7 +78,7 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
@@ -201,7 +201,7 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-        
+
         <!-- Apache Kafka -->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
@@ -287,6 +287,16 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <url>${tomcat.path}</url>
+                        <server>${tomcat.server.id}</server>
+                        <path>/${tomcat.app}</path>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
