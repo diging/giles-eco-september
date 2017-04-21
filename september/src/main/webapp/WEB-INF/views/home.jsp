@@ -56,6 +56,7 @@ $(function() {
     <c:if test="${msg.type == 'WARNING' }">
     <span class="label label-warning">Warning</span>
     </c:if>
+    
     <b>${msg.message}</b>
     </p>
     <p>${msg.stackTrace}</p>
