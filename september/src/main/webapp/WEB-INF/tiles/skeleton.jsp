@@ -85,6 +85,10 @@
 		<hr style="margin-bottom: 25px;">
 		<p class="text-muted pull-left">
 		
+		<c:set var="PR" value="${pullrequest}" />
+            Version: ${geco.september.version}<c:if test="${not empty PR}">, Pull Request: ${pullrequest}</c:if> 
+		</p>
+		
 	    <p class="text-muted">
 	    
 	         
