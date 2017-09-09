@@ -22,6 +22,7 @@
         <september.kafka.hosts>localhost:9092</september.kafka.hosts>
 
         <september.db_files></september.db_files>
+        <pullrequest></pullrequest>
         <buildNumber></buildNumber>
 
         <!-- Tomcat deployment -->
