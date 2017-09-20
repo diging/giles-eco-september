@@ -33,9 +33,19 @@ $(function() {
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-<c:forEach begin="1" end="${totalPages}" varStatus="loop">
-<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-</c:forEach>
+    <li <c:if test="${currentPageValue == 0}">class="active"</c:if> >
+     <a href="<c:url value="?page= 0" />" label="1">
+     <span aria-hidden="false"></span>
+     1</a>
+   </li>
+<c:forEach begin="2" end="${totalPages-1}" varStatus="loop">
+   <li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+   </c:forEach> 
+<li <c:if test="${currentPageValue == totalPages-1}">class="active"</c:if> >
+      <a href="<c:url value="?page=${totalPages -1}" />" label="${totalPages}">
+      <span aria-hidden="false"></span>
+      ${totalPages}</a>
+    </li>
    <li>
       <a href="<c:url value="?page=${next}" />" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
@@ -75,9 +85,19 @@ $(function() {
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-<c:forEach begin="1" end="${totalPages}" varStatus="loop">
+    <li <c:if test="${currentPageValue == 0}">class="active"</c:if> >
+     <a href="<c:url value="?page= 0" />" label="1">
+     <span aria-hidden="false"></span>
+     1</a>
+   </li>
+<c:forEach begin="2" end="${totalPages-1}" varStatus="loop">
 <li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
 </c:forEach>
+   <li <c:if test="${currentPageValue == totalPages-1}">class="active"</c:if> >
+      <a href="<c:url value="?page=${totalPages -1}" />" label="${totalPages}">
+      <span aria-hidden="false"></span>
+      ${totalPages}</a>
+    </li>
    <li>
       <a href="<c:url value="?page=${next}" />" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
