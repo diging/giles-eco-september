@@ -32,7 +32,7 @@ $(function() {
       <a href="<c:url value="?page=${prev}" />" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
-    </li>
+    </li>  
 <c:forEach begin="1" end="${totalPages}" varStatus="loop">
 <li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
 </c:forEach>
