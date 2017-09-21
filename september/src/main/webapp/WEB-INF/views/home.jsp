@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 
+
 <sec:authorize access="isAnonymous()">
 <div class="jumbotron col-md-12">
 <h1>Congratulation!</h1>
@@ -12,7 +13,6 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 </p>
 </div>
 </sec:authorize>
-
 <script>
 $(function() {
     $.each($(".date"), function(elem) {
@@ -38,10 +38,38 @@ $(function() {
      <span aria-hidden="false"></span>
      1</a>
    </li>
-<c:forEach begin="2" end="${totalPages-1}" varStatus="loop">
-   <li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-   </c:forEach> 
-<li <c:if test="${currentPageValue == totalPages-1}">class="active"</c:if> >
+   
+	<c:choose>
+		<c:when test="${currentPageValue<=4 && totalPages > 6}">
+			<c:forEach begin="2" end="${currentPageValue+4}" varStatus="loop">
+				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+			</c:forEach>
+	<li><a label="dot1">...</a></li>
+		</c:when>
+
+		<c:when test="${currentPageValue >= totalPages-4}">
+	<li><a label="dot1">...</a></li>
+			<c:forEach begin="${currentPageValue-2}" end="${totalPages-1}" varStatus="loop">
+				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+			</c:forEach>
+		</c:when>
+
+		<c:when test="${totalPages<=6}">
+			<c:forEach begin="2" end="${totalPages-1}" varStatus="loop">
+				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+			</c:forEach>
+		</c:when>
+
+		<c:when test="${currentPageValue >=5 && currentPageValue < totalPages-4 }">
+	<li><a label="dot1">...</a></li>
+			<c:forEach begin="${currentPageValue-2}" end="${currentPageValue+3}" varStatus="loop">
+				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+			</c:forEach>
+	<li><a label="dot2">...</a></li>
+		</c:when>
+	</c:choose>
+   
+	<li <c:if test="${currentPageValue == totalPages-1}">class="active"</c:if> >
       <a href="<c:url value="?page=${totalPages -1}" />" label="${totalPages}">
       <span aria-hidden="false"></span>
       ${totalPages}</a>
@@ -90,9 +118,35 @@ $(function() {
      <span aria-hidden="false"></span>
      1</a>
    </li>
-<c:forEach begin="2" end="${totalPages-1}" varStatus="loop">
-<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-</c:forEach>
+<c:choose>
+		<c:when test="${currentPageValue<=4 && totalPages > 6}">
+			<c:forEach begin="2" end="${currentPageValue+4}" varStatus="loop">
+				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+			</c:forEach>
+	<li><a label="dot1">...</a></li>
+		</c:when>
+
+		<c:when test="${currentPageValue >= totalPages-4}">
+	<li><a label="dot1">...</a></li>
+			<c:forEach begin="${currentPageValue-2}" end="${totalPages-1}" varStatus="loop">
+				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+			</c:forEach>
+		</c:when>
+
+		<c:when test="${totalPages<=6}">
+			<c:forEach begin="2" end="${totalPages-1}" varStatus="loop">
+				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+			</c:forEach>
+		</c:when>
+
+		<c:when test="${currentPageValue >=5 && currentPageValue < totalPages-4 }">
+	<li><a label="dot1">...</a></li>
+			<c:forEach begin="${currentPageValue-2}" end="${currentPageValue+3}" varStatus="loop">
+				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
+			</c:forEach>
+	<li><a label="dot2">...</a></li>
+		</c:when>
+	</c:choose>
    <li <c:if test="${currentPageValue == totalPages-1}">class="active"</c:if> >
       <a href="<c:url value="?page=${totalPages -1}" />" label="${totalPages}">
       <span aria-hidden="false"></span>
