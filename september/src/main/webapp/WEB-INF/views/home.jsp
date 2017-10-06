@@ -13,73 +13,32 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 </p>
 </div>
 </sec:authorize>
+
+<!-- Pagination Plugin -->
+
+<script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
+
 <script>
-$(function() {
-    $.each($(".date"), function(elem) {
-        var date = new Date(elem.text());
-        elem.text(date.toLocaleDateString());
-    });
- });
+jQuery(document).ready(function(){
+	 jQuery.each($(".date"), function(elem) {
+	        var date = new Date(elem.text());
+	        elem.text(date.toLocaleDateString());
+	    });
+/// Pagination plugin input values
+
+	 jQuery(".pagination").pagination({
+	        pages: ${totalPages},
+	        cssStyle: 'light-theme',
+	        hrefTextPrefix: '?page=',
+	        	currentPage: ${currentPageValue + 1}
+	    });
+
+});
 </script>
 <sec:authorize access="isAuthenticated()">
 
-<c:set var="prev" value="${currentPageValue-1 >= 0 ? currentPageValue-1 : 0 }" />
-<c:set var="next" value="${currentPageValue+1 < totalPages ? currentPageValue+1 : totalPages-1 }" />
-
 <nav aria-label="Page navigation" class="pull-right">
-  <ul class="pagination">
-    <li>
-      <a href="<c:url value="?page=${prev}" />" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li <c:if test="${currentPageValue == 0}">class="active"</c:if> >
-     <a href="<c:url value="?page= 0" />" label="1">
-     <span aria-hidden="false"></span>
-     1</a>
-   </li>
-   
-	<c:choose>
-		<c:when test="${currentPageValue<=4 && totalPages > 6}">
-			<c:forEach begin="2" end="${currentPageValue+4}" varStatus="loop">
-				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-			</c:forEach>
-	<li><a label="dot1">...</a></li>
-		</c:when>
-
-		<c:when test="${currentPageValue >= totalPages-4}">
-	<li><a label="dot1">...</a></li>
-			<c:forEach begin="${currentPageValue-2}" end="${totalPages-1}" varStatus="loop">
-				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-			</c:forEach>
-		</c:when>
-
-		<c:when test="${totalPages<=6}">
-			<c:forEach begin="2" end="${totalPages-1}" varStatus="loop">
-				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-			</c:forEach>
-		</c:when>
-
-		<c:when test="${currentPageValue >=5 && currentPageValue < totalPages-4 }">
-	<li><a label="dot1">...</a></li>
-			<c:forEach begin="${currentPageValue-2}" end="${currentPageValue+3}" varStatus="loop">
-				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-			</c:forEach>
-	<li><a label="dot2">...</a></li>
-		</c:when>
-	</c:choose>
-   
-	<li <c:if test="${currentPageValue == totalPages-1}">class="active"</c:if> >
-      <a href="<c:url value="?page=${totalPages -1}" />" label="${totalPages}">
-      <span aria-hidden="false"></span>
-      ${totalPages}</a>
-    </li>
-   <li>
-      <a href="<c:url value="?page=${next}" />" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
+<ul class="pagination"></ul>
 </nav>
 
 <div class="clearfix"></div>
@@ -107,56 +66,6 @@ $(function() {
 </c:forEach>
 
 <nav aria-label="Page navigation" class="pull-right">
-  <ul class="pagination">
-    <li>
-      <a href="<c:url value="?page=${prev}" />" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li <c:if test="${currentPageValue == 0}">class="active"</c:if> >
-     <a href="<c:url value="?page= 0" />" label="1">
-     <span aria-hidden="false"></span>
-     1</a>
-   </li>
-<c:choose>
-		<c:when test="${currentPageValue<=4 && totalPages > 6}">
-			<c:forEach begin="2" end="${currentPageValue+4}" varStatus="loop">
-				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-			</c:forEach>
-	<li><a label="dot1">...</a></li>
-		</c:when>
-
-		<c:when test="${currentPageValue >= totalPages-4}">
-	<li><a label="dot1">...</a></li>
-			<c:forEach begin="${currentPageValue-2}" end="${totalPages-1}" varStatus="loop">
-				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-			</c:forEach>
-		</c:when>
-
-		<c:when test="${totalPages<=6}">
-			<c:forEach begin="2" end="${totalPages-1}" varStatus="loop">
-				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-			</c:forEach>
-		</c:when>
-
-		<c:when test="${currentPageValue >=5 && currentPageValue < totalPages-4 }">
-	<li><a label="dot1">...</a></li>
-			<c:forEach begin="${currentPageValue-2}" end="${currentPageValue+3}" varStatus="loop">
-				<li <c:if test="${loop.index-1 == currentPageValue}">class="active"</c:if> ><a href="<c:url value="?page=${loop.index-1}" />">${loop.index}</a></li>
-			</c:forEach>
-	<li><a label="dot2">...</a></li>
-		</c:when>
-	</c:choose>
-   <li <c:if test="${currentPageValue == totalPages-1}">class="active"</c:if> >
-      <a href="<c:url value="?page=${totalPages -1}" />" label="${totalPages}">
-      <span aria-hidden="false"></span>
-      ${totalPages}</a>
-    </li>
-   <li>
-      <a href="<c:url value="?page=${next}" />" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
+<ul class="pagination"></ul>
 </nav>
 </sec:authorize>
