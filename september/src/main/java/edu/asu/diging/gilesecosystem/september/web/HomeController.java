@@ -1,12 +1,16 @@
 package edu.asu.diging.gilesecosystem.september.web;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
@@ -31,4 +35,17 @@ public class HomeController {
         
         return "home";
     }
+    
+ public Map initForm(Model model) {
+    //filterMessage member = new filterMessage();
+    //model.addAttribute("member", member);
+	 Map messageTypeData = new HashMap();
+    List<String> messageTypes = new ArrayList<String>();
+    messageTypes.add("Error");
+    messageTypes.add("Info");
+    messageTypes.add("Warning");
+    model.addAttribute("messageTypes", messageTypes);
+	return messageTypeData;
+  }
+    
 }

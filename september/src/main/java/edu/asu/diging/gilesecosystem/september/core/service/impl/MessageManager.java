@@ -75,4 +75,11 @@ public class MessageManager implements IMessageManager {
         int totalNr = dbClient.getNumberOfMessages();
         return (int) Math.ceil(new Double(totalNr)/new Double(pageSize));
     }
+
+	@Override
+	public List<IMessage> getfilteredMessages() {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
 }
