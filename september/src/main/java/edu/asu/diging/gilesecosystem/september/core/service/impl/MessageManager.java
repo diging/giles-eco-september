@@ -35,7 +35,7 @@ public class MessageManager implements IMessageManager {
      */
     @Override
     public List<IMessage> getAllMessages() {
-        List<Message> results = dbClient.getMessages(0, 10, SORT_FIELD_EXCEPTION_TIME);
+        List<Message> results = dbClient.getMessages(0, 100, SORT_FIELD_EXCEPTION_TIME);
         return convertToIMessages(results);
     }
     

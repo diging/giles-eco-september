@@ -13,7 +13,19 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 </p>
 </div>
 </sec:authorize>
+<!-- Bootstrap CSS Files -->
+<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+<link href="/resources/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 
+<!-- JQuery Plugin -->
+<script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery-3.2.1.js" />"></script>
+<!-- Bootstrap Plugin -->
+<script type="text/javascript" src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
+<!-- Data Table Plugin -->
+<script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.dataTables.js" />"></script>
+<!-- Data Table Bootstrap Plugin -->
+<script type="text/javascript" src="<c:url value="/resources/bootstrap/js/dataTables.bootstrap.js" />"></script>
 <!-- Pagination Plugin -->
 
 <script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
@@ -23,42 +35,55 @@ jQuery(document).ready(function(){
 	        var date = new Date(elem.text());
 	        elem.text(date.toLocaleDateString());
 	    });
+	 
+//Data Table plugin input values
+	jQuery("#messageTable").DataTable();
 // Pagination plugin input values
 
-	 jQuery(".pagination").pagination({
-	        pages: ${totalPages},
-	        cssStyle: 'light-theme',
-	        hrefTextPrefix: '?page=',
-	        	currentPage: ${currentPageValue + 1}  
-	 }
-	 );
+	// jQuery(".pagination").pagination({
+	    //    pages: ${totalPages},
+	     //   cssStyle: 'light-theme',
+	     //   hrefTextPrefix: '?page=',
+	       // 	currentPage: ${currentPageValue + 1}  
+	// }
+	// );
 	    });
 </script>
 <sec:authorize access="isAuthenticated()">
+<!-- Table display -->
 
-		 <form:form method="POST" commandName="filterMessage">
-			<table>
-	            <tr>
-	                <td>Choose the Message Type:</td>
-	                <td><form:checkboxes path="messageTypes" items="${messageTypes}" />
-	                </td>
-	            </tr>
-	            <tr>
-	                <td><input type="submit" name="submit" value="Submit"></td>
-	            </tr>
-	        </table>
-	    </form:form>
-
-<nav aria-label="Page navigation" class="pull-right">
-<ul class="pagination"></ul>
-</nav>
-
+<div class="row">
+<div class="col-xs-12">
+<table id="messageTable" class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>
+App Name
+</th>
+<th>
+Exception Time
+</th>
+<th>
+Message Type
+</th>
+<th>
+Message Title
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
 <div class="clearfix"></div>
 <c:forEach items="${messages}" var="msg" varStatus = "loopTracker">
-	<div class="panel ${msg.type}" style="max-height: 200px; overflow-y: scroll;">
-	  <div class="panel-body">
-	    <span class="label label-primary"><spring:message code="appname.${msg.applicationId}" /></span> <span class="date2">${msg.exceptionTimePrint}</span>
-	    <p style="padding-bottom: 5px; border-bottom-width: 1px;border-bottom-color: #eaeaea; border-bottom-style: solid;">
+
+	<!-- <div class="panel ${msg.type}" style="max-height: 200px; overflow-y: scroll;"> -->
+	
+	  <!-- <div class="panel-body"> -->
+	  <tr>
+	   <td> <span class="label label-primary"><spring:message code="appname.${msg.applicationId}" /></span></td> <td><span class="date2">${msg.exceptionTimePrint}</span></td>
+	  <td>
 	    <c:if test="${msg.type == 'ERROR' }">
 	    <span class="label label-danger test">Error</span> 
 	    </c:if>
@@ -68,16 +93,20 @@ jQuery(document).ready(function(){
 	    <c:if test="${msg.type == 'INFO' }">
 	    <span class="label label-info test">Info</span>
 	    </c:if>
-	    
-	    <b>${msg.title}</b>
-	    </p>
-	    <p>${msg.message}</p>
-	    <p>${msg.stackTrace}</p>
-	  </div>
-	</div>
+	    </td>
+	    <td>
+	    <b>${msg.title}</b></td>
+	   
+	  <td>  <p>${msg.message}</p>
+	    <p>${msg.stackTrace}</p></td>
+	    </tr>
+	  <!-- </div>  -->
+	<!-- </div>  -->	
 </c:forEach>
+</tbody>
+</table>
+</div>
 
-<nav aria-label="Page navigation" class="pull-right">
-<ul class="pagination"></ul>
-</nav>
+</div>
+
 </sec:authorize>
