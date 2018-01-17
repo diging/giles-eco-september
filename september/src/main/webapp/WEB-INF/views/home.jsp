@@ -30,14 +30,36 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 
 <script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
 <script>
+var otable;
 jQuery(document).ready(function(){
 	 jQuery.each($(".date"), function(elem) {
 	        var date = new Date(elem.text());
 	        elem.text(date.toLocaleDateString());
 	    });
+	 //Testing for checkbox
+	 jQuery(function() {
+  otable = jQuery('#messageTable').dataTable({
+  "dom": '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>'
+});
+	 })
+});
+	// Checkbox
+	
+	function filterme() {
+  //build a regex filter string with an or(|) condition
+  var types = jQuery('input:checkbox[name="type"]:checked').map(function() {
+    return '^' + this.value + '\$';
+  }).get().join('|');
+  //filter in column 2, with an regex, no smart filtering, no inputbox,not case sensitive
+  otable.fnFilter(types, 2, true, false, false, false);
+  //now filter in column 2, with no regex, no smart filtering, no inputbox,not case sensitive
+  //otable.fnFilter(frees, 2, false, false, false, false);
+}
 	 
 //Data Table plugin input values
-	jQuery("#messageTable").DataTable();
+	//jQuery("#messageTable").DataTable({
+	//	"dom": '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>'
+	//});
 // Pagination plugin input values
 
 	// jQuery(".pagination").pagination({
@@ -47,13 +69,19 @@ jQuery(document).ready(function(){
 	       // 	currentPage: ${currentPageValue + 1}  
 	// }
 	// );
-	    });
+	    
 </script>
 <sec:authorize access="isAuthenticated()">
 <!-- Table display -->
 
 <div class="row">
 <div class="col-xs-12">
+<b>Filter by Message Type:</b></br>
+<input onchange="filterme()" type="checkbox" name="type" value="Error|Warning|Info">All
+  <input onchange="filterme()" type="checkbox" name="type" value="Error">Error
+  <input onchange="filterme()" type="checkbox" name="type" value="Warning">Warning
+  <input onchange="filterme()" type="checkbox" name="type" value="Info">Info
+  <hr>
 <table id="messageTable" class="table table-striped table-bordered">
 <thead>
 <tr>
