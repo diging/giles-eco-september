@@ -29,11 +29,6 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 <!-- Pagination Plugin -->
 
 <script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
-
-<!-- Pagination Plugin -->
-
-<script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
-
 <script>
 var otable;
 jQuery(document).ready(function(){
@@ -49,7 +44,7 @@ jQuery(document).ready(function(){
 	 })
 });
 	// Checkbox
-	
+
 	function filterme() {
   //build a regex filter string with an or(|) condition
   var types = jQuery('input:checkbox[name="type"]:checked').map(function() {
@@ -60,7 +55,7 @@ jQuery(document).ready(function(){
   //now filter in column 2, with no regex, no smart filtering, no inputbox,not case sensitive
   //otable.fnFilter(frees, 2, false, false, false, false);
 }
-	 
+
 //Data Table plugin input values
 	//jQuery("#messageTable").DataTable({
 	//	"dom": '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>'
@@ -71,20 +66,10 @@ jQuery(document).ready(function(){
 	    //    pages: ${totalPages},
 	     //   cssStyle: 'light-theme',
 	     //   hrefTextPrefix: '?page=',
-	       // 	currentPage: ${currentPageValue + 1}  
+	       // 	currentPage: ${currentPageValue + 1}
 	// }
 	// );
-	    
-/// Pagination plugin input values
 
-	 jQuery(".pagination").pagination({
-	        pages: ${totalPages},
-	        cssStyle: 'light-theme',
-	        hrefTextPrefix: '?page=',
-	        	currentPage: ${currentPageValue + 1}
-	    });
-
-});
 </script>
 <sec:authorize access="isAuthenticated()">
 <!-- Table display -->
@@ -122,13 +107,13 @@ Message
 <c:forEach items="${messages}" var="msg" varStatus = "loopTracker">
 
 	<!-- <div class="panel ${msg.type}" style="max-height: 200px; overflow-y: scroll;"> -->
-	
+
 	  <!-- <div class="panel-body"> -->
 	  <tr>
 	   <td> <span class="label label-primary"><spring:message code="appname.${msg.applicationId}" /></span></td> <td><span class="date2">${msg.exceptionTimePrint}</span></td>
 	  <td>
 	    <c:if test="${msg.type == 'ERROR' }">
-	    <span class="label label-danger test">Error</span> 
+	    <span class="label label-danger test">Error</span>
 	    </c:if>
 	    <c:if test="${msg.type == 'WARNING' }">
 	    <span class="label label-warning test">Warning</span>
@@ -139,19 +124,16 @@ Message
 	    </td>
 	    <td>
 	    <b>${msg.title}</b></td>
-	   
+
 	  <td>  <p>${msg.message}</p>
 	    <p>${msg.stackTrace}</p></td>
 	    </tr>
 	  <!-- </div>  -->
-	<!-- </div>  -->	
+	<!-- </div>  -->
 </c:forEach>
 </tbody>
 </table>
 </div>
-<nav aria-label="Page navigation" class="pull-right">
-<ul class="pagination"></ul>
-</nav>
 
 </div>
 
