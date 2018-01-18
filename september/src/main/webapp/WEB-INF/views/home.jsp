@@ -29,6 +29,11 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 <!-- Pagination Plugin -->
 
 <script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
+
+<!-- Pagination Plugin -->
+
+<script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
+
 <script>
 var otable;
 jQuery(document).ready(function(){
@@ -70,6 +75,16 @@ jQuery(document).ready(function(){
 	// }
 	// );
 	    
+/// Pagination plugin input values
+
+	 jQuery(".pagination").pagination({
+	        pages: ${totalPages},
+	        cssStyle: 'light-theme',
+	        hrefTextPrefix: '?page=',
+	        	currentPage: ${currentPageValue + 1}
+	    });
+
+});
 </script>
 <sec:authorize access="isAuthenticated()">
 <!-- Table display -->
@@ -134,6 +149,9 @@ Message
 </tbody>
 </table>
 </div>
+<nav aria-label="Page navigation" class="pull-right">
+<ul class="pagination"></ul>
+</nav>
 
 </div>
 
