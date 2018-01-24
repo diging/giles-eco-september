@@ -37,12 +37,46 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 		//Testing for checkbox
 		jQuery(function() {
 			otable = jQuery('#messageTable').dataTable({
-				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>'
+				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+				"serverSide": true,
+				"processing": true,
+				"paging": true,
+				 "filter": true, // this is for disable filter (search box)
+			        "orderMulti": false, // for disable multiple column at once
+			        "ajax": {
+			            "url": url,
+			            "type": "POST",
+			            "datatype": "json"
+			        },
+			        "columns": [
+			                { "data": "ProviderName", "name": "ProviderName", "autoWidth": true },
+			                { "data": "ProviderName", "name": "ProviderName", "autoWidth": true },
+			                { "data": "cpTitle", "name": "cpTitle", "autoWidth": true },
+			                { "data": "cpAddress", "name": "cpAddress", "autoWidth": true },
+			                { "data": "cpPriceHourly", "name": "cpPriceHourly", "autoWidth": true },
+			                { "data": "cpCreatedDate", "name": "cpCreatedDate", "autoWidth": true },
+			                { "data": "cpId", "name": "cpId", "autoWidth": true }
+			        ],
+
+			        "columnDefs": [{
+			            "targets": 0,
+			            "data": null,
+			            "render": function (data, type, full, meta) {
+			                cnt++;
+			                if (cnt != 0) {
+			                    $("#divExcel").show();
+			                }
+			                   return meta.settings._iDisplayStart + meta.row + 1;
+			                }
+			           }]
+				
+		       // ordering: true,
+		        //searching: false
 			});
 		})
 	});
 	// Checkbox
-
+/*
 	function filterme() {
 		//build a regex filter string with an or(|) condition
 		var types = jQuery('input:checkbox[name="type"]:checked').map(
@@ -52,6 +86,7 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 		//filter in column 2, with an regex, no smart filtering, no inputbox,not case sensitive
 		otable.fnFilter(types, 2, true, false, false, false);
 	}
+	*/
 </script>
 
 <sec:authorize access="isAuthenticated()">
@@ -102,8 +137,6 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 								<p>${msg.stackTrace}</p>
 							</td>
 						</tr>
-						<!-- </div>  -->
-						<!-- </div>  -->
 					</c:forEach>
 				</tbody>
 			</table>
