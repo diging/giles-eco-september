@@ -38,40 +38,11 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 		jQuery(function() {
 			otable = jQuery('#messageTable').dataTable({
 				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
-				"serverSide": true,
-				"processing": true,
-				"paging": true,
-				 "filter": true, // this is for disable filter (search box)
-			        "orderMulti": false, // for disable multiple column at once
-			        "ajax": {
-			            "url": url,
-			            "type": "POST",
-			            "datatype": "json"
-			        },
-			        "columns": [
-			                { "data": "ProviderName", "name": "ProviderName", "autoWidth": true },
-			                { "data": "ProviderName", "name": "ProviderName", "autoWidth": true },
-			                { "data": "cpTitle", "name": "cpTitle", "autoWidth": true },
-			                { "data": "cpAddress", "name": "cpAddress", "autoWidth": true },
-			                { "data": "cpPriceHourly", "name": "cpPriceHourly", "autoWidth": true },
-			                { "data": "cpCreatedDate", "name": "cpCreatedDate", "autoWidth": true },
-			                { "data": "cpId", "name": "cpId", "autoWidth": true }
-			        ],
-
-			        "columnDefs": [{
-			            "targets": 0,
-			            "data": null,
-			            "render": function (data, type, full, meta) {
-			                cnt++;
-			                if (cnt != 0) {
-			                    $("#divExcel").show();
-			                }
-			                   return meta.settings._iDisplayStart + meta.row + 1;
-			                }
-			           }]
-				
-		       // ordering: true,
-		        //searching: false
+				"bServerSide": true,
+                "sAjaxSource": "/JQueryDataTables/CompanyAjaxDataSource",
+                "bProcessing": true,
+                "sPaginationType": "full_numbers",
+                "bJQueryUI": true
 			});
 		})
 	});
@@ -95,12 +66,11 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 
 	<div class="row">
 		<div class="col-xs-12">
-			<b>Filter by Message Type:</b></br> <input onchange="filterme()"
-				type="checkbox" name="type" value="Error|Warning|Info">All <input
-				onchange="filterme()" type="checkbox" name="type" value="Error">Error
-			<input onchange="filterme()" type="checkbox" name="type"
-				value="Warning">Warning <input onchange="filterme()"
-				type="checkbox" name="type" value="Info">Info
+			<b>Filter by Message Type:</b></br> 
+			<input type="checkbox" name="type" value="Error|Warning|Info">All 
+			<input type="checkbox" name="type" value="Error">Error
+			<input type="checkbox" name="type" value="Warning">Warning 
+			<input type="checkbox" name="type" value="Info">Info
 			<hr>
 			<table id="messageTable" class="table table-striped table-bordered">
 				<thead>
@@ -113,13 +83,17 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 					</tr>
 				</thead>
 				<tbody>
+				
+				</tbody>
+				<!-- 
+				<tbody>
 					<div class="clearfix"></div>
-					<c:forEach items="${messages}" var="msg" varStatus="loopTracker">
+					<c:forEach items="${messages}" var="msg" varStatus="loopTracker">  -->
 
 						<!-- <div class="panel ${msg.type}" style="max-height: 200px; overflow-y: scroll;"> -->
 
 						<!-- <div class="panel-body"> -->
-						<tr>
+				<!-- 		<tr>
 							<td><span class="label label-primary"><spring:message
 										code="appname.${msg.applicationId}" /></span></td>
 							<td><span class="date2">${msg.exceptionTimePrint}</span></td>
@@ -136,9 +110,9 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 								<p>${msg.message}</p>
 								<p>${msg.stackTrace}</p>
 							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
+						</tr>  -->
+				<!-- 	</c:forEach>  
+				</tbody> -->
 			</table>
 		</div>
 
