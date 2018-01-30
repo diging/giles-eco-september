@@ -36,28 +36,43 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 		});
 		//Testing for checkbox
 		jQuery(function() {
+			var data = eval('${messages}');
 			otable = jQuery('#messageTable').dataTable({
 				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
-				"bServerSide": true,
-                "sAjaxSource": "/JQueryDataTables/CompanyAjaxDataSource",
-                "bProcessing": true,
-                "sPaginationType": "full_numbers",
-                "bJQueryUI": true
+				"bServerSide" : true,
+				"bProcessing" : true,
+				"ajax" : {
+					url : "/datatable",
+					type : "post",
+					dataSrc: ''
+				},
+				"columns" : [ {
+					"data" : "applicationId"
+				}, {
+					"data" : "exceptionTimePrint"
+				}, {
+					"data" : "type"
+				}, {
+					"data" : "title"
+				}, {
+					"data" : "message"
+				} ]
+
 			});
 		})
 	});
 	// Checkbox
-/*
-	function filterme() {
-		//build a regex filter string with an or(|) condition
-		var types = jQuery('input:checkbox[name="type"]:checked').map(
-				function() {
-					return '^' + this.value + '\$';
-				}).get().join('|');
-		//filter in column 2, with an regex, no smart filtering, no inputbox,not case sensitive
-		otable.fnFilter(types, 2, true, false, false, false);
-	}
-	*/
+	/*
+	 function filterme() {
+	 //build a regex filter string with an or(|) condition
+	 var types = jQuery('input:checkbox[name="type"]:checked').map(
+	 function() {
+	 return '^' + this.value + '\$';
+	 }).get().join('|');
+	 //filter in column 2, with an regex, no smart filtering, no inputbox,not case sensitive
+	 otable.fnFilter(types, 2, true, false, false, false);
+	 }
+	 */
 </script>
 
 <sec:authorize access="isAuthenticated()">
