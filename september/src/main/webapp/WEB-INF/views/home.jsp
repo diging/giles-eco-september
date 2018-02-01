@@ -28,7 +28,7 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 <script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
 
 <script>
-	var otable;
+	var messageTable;
 	jQuery(document).ready(function() {
 		jQuery.each($(".date"), function(elem) {
 			var date = new Date(elem.text());
@@ -37,27 +37,35 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 		//Testing for checkbox
 		jQuery(function() {
 			var data = eval('${messages}');
-			otable = jQuery('#messageTable').dataTable({
+			
+			messageTable = jQuery('#messageTable').dataTable({
 				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
 				"bServerSide" : true,
 				"bProcessing" : true,
-				"ajax" : {
-					url : "/datatable",
-					type : "post",
-					dataSrc: ''
+				"deferRender": true,
+				"sAjaxSource": "/datatable",
+				"sAjaxDataProp": "aoData",
+				"fnServerData": function (sSource, aoData, fnCallback) {
+				"ajax" : ({
+					"dataType": 'json',
+					"type" : "GET",
+					"url" : sSource,
+					"data": aoData,
+	                "success":fnCallback
+				});
 				},
-				"columns" : [ {
-					"data" : "applicationId"
+				"aocolumns" : [ {
+					"mData" : "applicationId"
 				}, {
-					"data" : "exceptionTimePrint"
+					"mData" : "exceptionTimePrint"
 				}, {
-					"data" : "type"
+					"mData" : "type"
 				}, {
-					"data" : "title"
+					"mData" : "title"
 				}, {
-					"data" : "message"
-				} ]
-
+					"mData" : "message"
+				} ],
+				"columnDefs": [{"targets": [0], "visible": false, "searchable": false}]
 			});
 		})
 	});
