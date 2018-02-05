@@ -30,44 +30,34 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 <script>
 	var messageTable;
 	jQuery(document).ready(function() {
+		console.log("Ready");
 		jQuery.each($(".date"), function(elem) {
 			var date = new Date(elem.text());
 			elem.text(date.toLocaleDateString());
 		});
 		//Testing for checkbox
-		jQuery(function() {
-			var data = eval('${messages}');
-			
+		//jQuery(function() {
+			//var data = eval('${messages}');
+			console.log("Datatable");
 			messageTable = jQuery('#messageTable').dataTable({
+				"processing" : true,
+				"serverSide" : true,
+				"info" : true,
 				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
-				"bServerSide" : true,
-				"bProcessing" : true,
 				"deferRender": true,
-				"sAjaxSource": "/datatable",
-				"sAjaxDataProp": "aoData",
-				"fnServerData": function (sSource, aoData, fnCallback) {
-				"ajax" : ({
-					"dataType": 'json',
-					"type" : "GET",
-					"url" : sSource,
-					"data": aoData,
-	                "success":fnCallback
-				});
+				"ajax" : {
+					"url" : "/september/datatable",
+					"type" : "GET"
 				},
-				"aocolumns" : [ {
-					"mData" : "applicationId"
-				}, {
-					"mData" : "exceptionTimePrint"
-				}, {
-					"mData" : "type"
-				}, {
-					"mData" : "title"
-				}, {
-					"mData" : "message"
-				} ],
-				"columnDefs": [{"targets": [0], "visible": false, "searchable": false}]
+				"columns" : [ 
+					{ "data" : "applicationId" }, 
+					{ "data" : "exceptionTimePrint" },
+					{ "data" : "type" },
+					{ "data" : "title" }, 
+					{ "data" : "message" } ],
+				"order": [[0, "asc"]]
 			});
-		})
+	//});
 	});
 	// Checkbox
 	/*

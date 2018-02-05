@@ -29,7 +29,7 @@ public class HomeController {
         model.addAttribute("messages", messages);
         model.addAttribute("totalPages", manager.getNumberOfPages());
         model.addAttribute("currentPageValue", page);
-        
+        System.out.println("Messages Size: "+messages.size());
         return "home";
     }
    
@@ -38,7 +38,7 @@ public class HomeController {
             ) throws Exception {
 		int page = 0;
 		List<IMessage> dataTableMessages = manager.getMessages(page);
-		System.out.println("Inside Datatables");
+		//System.out.println("Inside Datatables");
 		
 		return dataTableMessages;
 		
