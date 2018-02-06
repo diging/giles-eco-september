@@ -42,20 +42,18 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 			messageTable = jQuery('#messageTable').dataTable({
 				"processing" : true,
 				"serverSide" : true,
+				"paging": true,
 				"info" : true,
 				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
 				"deferRender": true,
-				"ajax" : {
-					"url" : "/september/datatable",
-					"type" : "GET"
-				},
+				"ajax" : "/september/datatable",
+				"dataSrc": "",
 				"columns" : [ 
 					{ "data" : "applicationId" }, 
 					{ "data" : "exceptionTimePrint" },
 					{ "data" : "type" },
 					{ "data" : "title" }, 
-					{ "data" : "message" } ],
-				"order": [[0, "asc"]]
+					{ "data" : "message" } ]
 			});
 	//});
 	});

@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
+import edu.asu.diging.gilesecosystem.september.core.model.impl.DataTableData;
 import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
 
 @Controller
@@ -18,6 +19,9 @@ public class HomeController {
     
     @Autowired
     private IMessageManager manager;
+    
+    @Autowired
+    private IMessageDbClient client;
 
     @RequestMapping(value = "/")
     public String home(Principal principal, Model model, @RequestParam(defaultValue = "0") int page) {
@@ -34,13 +38,19 @@ public class HomeController {
     }
    
     @RequestMapping(value = "/datatable")
-	public @ResponseBody List<IMessage> doGet(
+	public @ResponseBody DataTableData  doGet(
             ) throws Exception {
 		int page = 0;
 		List<IMessage> dataTableMessages = manager.getMessages(page);
+		int totalRecords = client.getNumberOfMessages();
+		DataTableData dataTableData = new DataTableData();
+		
+		
+		dataTableData.setdata(dataTableMessages);
+		dataTableData.setrecordsTotal(totalRecords);
 		//System.out.println("Inside Datatables");
 		
-		return dataTableMessages;
+		return dataTableData;
 		
 	}
     

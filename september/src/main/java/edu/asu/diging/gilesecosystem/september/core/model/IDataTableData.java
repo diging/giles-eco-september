@@ -1,19 +1,23 @@
 package edu.asu.diging.gilesecosystem.september.core.model;
 
-import edu.asu.diging.gilesecosystem.util.store.IStorableObject;
+import java.util.List;
 
-public interface IDataTableData extends IStorableObject {
+public interface IDataTableData{
     
-	public abstract int getsEcho();
+	public abstract int getdraw();
 	
-	public abstract int getiTotalRecords();
+	public abstract int getrecordsTotal();
 
-    public abstract int getiDisplayRecords();
-
-    public abstract void setsEcho(int sEcho);
-
-    public abstract void setiTotalRecords(int iTotalRecords);
+    public abstract int getrecordsFiltered();
     
-    public abstract void setiDisplayRecords(int iDisplayRecords);
+    public abstract List<IMessage> getdata();
+
+    public abstract void setdraw(int draw);
+
+    public abstract void setrecordsTotal(int recordsTotal);
+    
+    public abstract void setrecordsFiltered(int recordsFiltered);
+    
+    public abstract void setdata(List<IMessage> data);
 
 }
