@@ -38,16 +38,18 @@ public class HomeController {
     }
    
     @RequestMapping(value = "/datatable")
-	public @ResponseBody DataTableData  doGet(
+	public @ResponseBody DataTableData  doGet(@RequestParam int draw,
+			@RequestParam int start
             ) throws Exception {
-		int page = 0;
-		List<IMessage> dataTableMessages = manager.getMessages(page);
+    
+		List<IMessage> dataTableMessages = manager.getMessages(start);
+		System.out.println(dataTableMessages.size());
 		int totalRecords = client.getNumberOfMessages();
 		DataTableData dataTableData = new DataTableData();
-		
-		
+		dataTableData.setdraw(draw);
 		dataTableData.setdata(dataTableMessages);
 		dataTableData.setrecordsTotal(totalRecords);
+		dataTableData.setrecordsFiltered(totalRecords);
 		//System.out.println("Inside Datatables");
 		
 		return dataTableData;

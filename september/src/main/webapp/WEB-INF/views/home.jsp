@@ -43,10 +43,14 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 				"processing" : true,
 				"serverSide" : true,
 				"paging": true,
+				"bFilter": false,
 				"info" : true,
 				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
 				"deferRender": true,
-				"ajax" : "/september/datatable",
+				"ajax" : {
+					"url": "/september/datatable",
+					"contentType":"application/json"
+				},
 				"dataSrc": "",
 				"columns" : [ 
 					{ "data" : "applicationId" }, 
@@ -57,18 +61,22 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 			});
 	//});
 	});
-	// Checkbox
-	/*
-	 function filterme() {
-	 //build a regex filter string with an or(|) condition
-	 var types = jQuery('input:checkbox[name="type"]:checked').map(
-	 function() {
-	 return '^' + this.value + '\$';
-	 }).get().join('|');
-	 //filter in column 2, with an regex, no smart filtering, no inputbox,not case sensitive
-	 otable.fnFilter(types, 2, true, false, false, false);
-	 }
-	 */
+		
+			// Checkbox
+			
+			 function filterme() {
+			 //build a regex filter string with an or(|) condition
+			 var types = jQuery('input:checkbox[name="type"]:checked').map(
+			 function() {
+			 return '^' + this.value + '\$';
+			 }).get().join('|');
+			 //filter in column 2, with an regex, no smart filtering, no inputbox,not case sensitive
+			 messageTable.fnFilter(types, 2, true, false, false, false);
+			 }
+
+			
+	
+	
 </script>
 
 <sec:authorize access="isAuthenticated()">
@@ -78,10 +86,10 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 	<div class="row">
 		<div class="col-xs-12">
 			<b>Filter by Message Type:</b></br> 
-			<input type="checkbox" name="type" value="Error|Warning|Info">All 
-			<input type="checkbox" name="type" value="Error">Error
-			<input type="checkbox" name="type" value="Warning">Warning 
-			<input type="checkbox" name="type" value="Info">Info
+			<input onchange="filterme()" type="checkbox" name="type" value="Error|Warning|Info">All 
+			<input onchange="filterme()" type="checkbox" name="type" value="Error">Error
+			<input onchange="filterme()" type="checkbox" name="type" value="Warning">Warning 
+			<input onchange="filterme()" type="checkbox" name="type" value="Info">Info
 			<hr>
 			<table id="messageTable" class="table table-striped table-bordered">
 				<thead>
