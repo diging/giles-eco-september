@@ -44,6 +44,7 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 				"serverSide" : true,
 				"paging": true,
 				"bFilter": false,
+				"bLengthChange": false,
 				"info" : true,
 				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
 				"deferRender": true,

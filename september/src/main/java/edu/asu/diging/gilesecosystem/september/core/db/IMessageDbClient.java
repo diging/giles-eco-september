@@ -11,6 +11,8 @@ public interface IMessageDbClient extends IDatabaseClient<IMessage> {
     public abstract List<Message> getMessages();
 
     public abstract List<Message> getMessages(int offset, int pageSize, String sortField);
+    
+    public abstract List<Message> getMessages(int offset, int pageSize, String regex,String sortField);
 
     /**
      * This method returns how many messages there are total stored in the database.
