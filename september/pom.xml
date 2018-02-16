@@ -10,7 +10,7 @@
     <properties>
         <geco.september.version>0.2-SNAPSHOT</geco.september.version>
         <geco.util.version>0.4.2</geco.util.version>
-        <geco.requests.version>0.5</geco.requests.version>
+        <geco.requests.version>0.6</geco.requests.version>
 
         <org.slf4j-version>1.7.5</org.slf4j-version>
         <org.springframework-version>4.3.1.RELEASE</org.springframework-version>
@@ -22,6 +22,8 @@
         <september.kafka.hosts>localhost:9092</september.kafka.hosts>
 
         <september.db_files></september.db_files>
+        <pullrequest></pullrequest>
+        <buildNumber></buildNumber>
 
         <!-- Tomcat deployment -->
         <tomcat.server.id></tomcat.server.id>
@@ -298,8 +300,35 @@
                         <path>/${tomcat.app}</path>
                     </configuration>
                 </plugin>
+                <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <revisionOnScmFailure></revisionOnScmFailure>
+                    <items>
+                        <item>buildNumber\d*</item>
+                        <item>timestamp</item>
+                    </items>
+                    <format>#{0} ({1,date,yyyy-MM-dd HH:mm:ss})</format>
+                </configuration>
+            </plugin>
             </plugins>
         </pluginManagement>
     </build>
+    <scm>
+        <connection>scm:svn:http://none</connection>
+        <url>scm:svn:https://none</url>
+    </scm>
 
 </project>
