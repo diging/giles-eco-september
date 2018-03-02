@@ -17,7 +17,7 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 <link href="/resources/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 
 <!-- JQuery Plugin -->
-<script type="text/javascript" src="<c:url value="/resources/bootstrap/js/jquery-3.2.1.js" />"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.js"></script>
 <!-- Bootstrap Plugin -->
 <script type="text/javascript" src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 <!-- Data Table Plugin -->
@@ -36,9 +36,6 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 			elem.text(date.toLocaleDateString());
 		});
 		//Testing for checkbox
-		//jQuery(function() {
-			//var data = eval('${messages}');
-			console.log("Datatable");
 			messageTable = jQuery('#messageTable').dataTable({
 				"processing" : true,
 				"serverSide" : true,
@@ -52,6 +49,10 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 					"url": "/september/datatable",
 					"contentType":"application/json"
 				},
+				//"fnServerParams": function (aoData) {
+			     //   var includeUsuallyIgnored = $("#include-checkbox").is(":checked");
+			      //  aoData.push({name: "includeUsuallyIgnored", value: includeUsuallyIgnored});
+			  //  },
 				"dataSrc": "",
 				"columns" : [ 
 					{ "data" : "applicationId" }, 
@@ -60,38 +61,38 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 					{ "data" : "title" }, 
 					{ "data" : "message" } ]
 			});
-	//});
+			
 	});
 		
-			// Checkbox
-			
-			 function filterme() {
-			 //build a regex filter string with an or(|) condition
-			 var types = jQuery('input:checkbox[name="type"]:checked').map(
-			 function() {
-			 return '^' + this.value + '\$';
-			 }).get().join('|');
-			 //filter in column 2, with an regex, no smart filtering, no inputbox,not case sensitive
-			 messageTable.fnFilter(types, 2, true, false, false, false);
-			 }
-
-			
-	
-	
-</script>
-
+		function filterme() {
+				 //build a regex filter string with an or(|) condition
+				 var types = jQuery('input:checkbox[name="type"]:checked').map(
+				 function() {
+				 return  this.value;
+				 }).get().join('|');
+				 //alert (types);
+				 //filter in column 2, with a regex, no smart filtering, no inputbox,not case sensitive
+				 m = document.getElementById('messageTable');
+				 console.log(m);
+				console.log(m.fnFilter('info', 2).draw());
+				 }
+		</script>
 <sec:authorize access="isAuthenticated()">
 
 <!-- Table display -->
 
 	<div class="row">
 		<div class="col-xs-12">
-			<b>Filter by Message Type:</b></br> 
+			<b>Filter by Message Type:</b></br>
+			<form>
+			<div> 
 			<input onchange="filterme()" type="checkbox" name="type" value="Error|Warning|Info">All 
 			<input onchange="filterme()" type="checkbox" name="type" value="Error">Error
 			<input onchange="filterme()" type="checkbox" name="type" value="Warning">Warning 
 			<input onchange="filterme()" type="checkbox" name="type" value="Info">Info
 			<hr>
+			</div>
+			</form>
 			<table id="messageTable" class="table table-striped table-bordered">
 				<thead>
 					<tr>

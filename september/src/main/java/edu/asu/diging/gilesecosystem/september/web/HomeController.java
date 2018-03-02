@@ -43,7 +43,6 @@ public class HomeController {
             ) throws Exception {
     		int offset=start/10;
 		List<IMessage> dataTableMessages = manager.getMessages(offset);
-		System.out.println(dataTableMessages.size());
 		int totalRecords = client.getNumberOfMessages();
 		DataTableData dataTableData = new DataTableData();
 		dataTableData.setdraw(draw);

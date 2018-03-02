@@ -67,6 +67,20 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
     }
     
     @Override
+    public List<Message> getMessages(int offset, int pageSize, String regex,String sortField)
+    {
+    	CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Message> query = builder.createQuery(Message.class);
+        Root<Message> root = query.from(Message.class);
+        query = query.select(root).orderBy(builder.desc(root.get(sortField)));    
+        
+        TypedQuery<Message> finalQuery = em.createQuery(query);
+        finalQuery.setFirstResult(offset).setMaxResults(pageSize);
+        return finalQuery.getResultList();
+    	
+    }
+    
+    @Override
     public int getNumberOfMessages() {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Message> query = builder.createQuery(Message.class);
