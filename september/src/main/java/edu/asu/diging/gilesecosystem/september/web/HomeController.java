@@ -2,6 +2,7 @@ package edu.asu.diging.gilesecosystem.september.web;
 
 import java.security.Principal;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,18 +40,31 @@ public class HomeController {
    
     @RequestMapping(value = "/datatable")
 	public @ResponseBody DataTableData  doGet(@RequestParam int draw,
-			@RequestParam int start
+			@RequestParam int start, @RequestParam String type
             ) throws Exception {
+    		System.out.println("Type: "+type);
+    		DataTableData dataTableData = new DataTableData();
+    		List<IMessage> dataTableMessages = null;
+    		int totalRecords = 0;
+    		int filteredRecords = 0;
     		int offset=start/10;
-		List<IMessage> dataTableMessages = manager.getMessages(offset);
-		int totalRecords = client.getNumberOfMessages();
-		DataTableData dataTableData = new DataTableData();
-		dataTableData.setdraw(draw);
+    		if(type.equals(""))
+    		{
+			dataTableMessages = manager.getMessages(offset);
+			totalRecords = client.getNumberOfMessages();
+			dataTableData.setrecordsFiltered(totalRecords);
+    		}
+    	else
+    		{
+    			dataTableMessages = manager.getMessages(offset, type);
+    			totalRecords = client.getNumberOfMessages();
+    			filteredRecords= client.getNumberOfFilteredMessages(type);
+    			dataTableData.setrecordsFiltered(filteredRecords);
+    		} 
+    		
+    		dataTableData.setdraw(draw);
 		dataTableData.setdata(dataTableMessages);
 		dataTableData.setrecordsTotal(totalRecords);
-		dataTableData.setrecordsFiltered(totalRecords);
-		//System.out.println("Inside Datatables");
-		
 		return dataTableData;
 		
 	}

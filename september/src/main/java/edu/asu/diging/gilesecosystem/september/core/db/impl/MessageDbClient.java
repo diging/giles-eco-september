@@ -2,7 +2,9 @@ package edu.asu.diging.gilesecosystem.september.core.db.impl;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
+import edu.asu.diging.gilesecosystem.september.core.model.MessageType;
 import edu.asu.diging.gilesecosystem.september.core.model.impl.Message;
 import edu.asu.diging.gilesecosystem.util.store.objectdb.DatabaseClient;
 
@@ -25,6 +28,7 @@ import edu.asu.diging.gilesecosystem.util.store.objectdb.DatabaseClient;
 public class MessageDbClient extends DatabaseClient<IMessage> implements IMessageDbClient {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     
     @PersistenceContext(unitName="DataPU")
     private EntityManager em;
@@ -66,18 +70,28 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
         return finalQuery.getResultList();
     }
     
-    @Override
-    public List<Message> getMessages(int offset, int pageSize, String regex,String sortField)
+    public List<MessageType> filterStringtoList(String regex)
     {
-    	CriteriaBuilder builder = em.getCriteriaBuilder();
+    		List<MessageType> filter = new ArrayList<MessageType>();
+		StringTokenizer st = new StringTokenizer(regex,"|");
+		while(st.hasMoreTokens())
+		{
+			filter.add(MessageType.valueOf(st.nextToken()));
+		}
+		return filter;
+    	
+    }
+    
+    @Override
+    public List<Message> getFilteredMessages(int offset, int pageSize, String regex, String sortField) {
+    		CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Message> query = builder.createQuery(Message.class);
         Root<Message> root = query.from(Message.class);
-        query = query.select(root).orderBy(builder.desc(root.get(sortField)));    
+        query = query.select(root).where(root.get("type").in(filterStringtoList(regex))).orderBy(builder.desc(root.get(sortField)));    
         
         TypedQuery<Message> finalQuery = em.createQuery(query);
         finalQuery.setFirstResult(offset).setMaxResults(pageSize);
         return finalQuery.getResultList();
-    	
     }
     
     @Override
@@ -101,4 +115,14 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
             logger.error("Derby is shutdown.", e);
         }
     }
+
+	@Override
+	public int getNumberOfFilteredMessages(String regex) {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Message> query = builder.createQuery(Message.class);
+        Root<Message> root = query.from(Message.class);
+        query = query.select(root).where(root.get("type").in(filterStringtoList(regex)));    
+        
+        return em.createQuery(query).getResultList().size();
+	}
 }

@@ -29,38 +29,45 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 
 <script>
 	var messageTable;
+	var filter;
+	function dtConstruction()
+	{
+		messageTable = jQuery('#messageTable').dataTable({
+			"processing" : true,
+			"serverSide" : true,
+			"paging": true,
+			"bFilter": false,
+			"bLengthChange": false,
+			"info" : true,
+			"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+			"deferRender": true,
+			"ajax" : {
+				"url": "/september/datatable",
+				"contentType":"application/json",
+				"data": function(d){
+					console.log("Filter: "+filter);
+					d.type = filter;
+				}
+			},
+			"dataSrc": "",
+			"columns" : [
+				{ "data" : "applicationId" },
+				{ "data" : "exceptionTimePrint" },
+				{ "data" : "type" },
+				{ "data" : "title" },
+				{ "data" : "message" } ]
+		});
+	}
 	jQuery(document).ready(function() {
 		console.log("Ready");
 		jQuery.each($(".date"), function(elem) {
 			var date = new Date(elem.text());
 			elem.text(date.toLocaleDateString());
 		});
-		//Testing for checkbox
-			messageTable = jQuery('#messageTable').dataTable({
-				"processing" : true,
-				"serverSide" : true,
-				"paging": true,
-				"bFilter": false,
-				"bLengthChange": false,
-				"info" : true,
-				"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
-				"deferRender": true,
-				"ajax" : {
-					"url": "/september/datatable",
-					"contentType":"application/json"
-				},
-				//"fnServerParams": function (aoData) {
-			     //   var includeUsuallyIgnored = $("#include-checkbox").is(":checked");
-			      //  aoData.push({name: "includeUsuallyIgnored", value: includeUsuallyIgnored});
-			  //  },
-				"dataSrc": "",
-				"columns" : [ 
-					{ "data" : "applicationId" }, 
-					{ "data" : "exceptionTimePrint" },
-					{ "data" : "type" },
-					{ "data" : "title" }, 
-					{ "data" : "message" } ]
-			});
+		
+		//Invoke the dataTable
+		filter="";
+		dtConstruction();
 			
 	});
 		
@@ -70,11 +77,9 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 				 function() {
 				 return  this.value;
 				 }).get().join('|');
-				 //alert (types);
-				 //filter in column 2, with a regex, no smart filtering, no inputbox,not case sensitive
-				 m = document.getElementById('messageTable');
-				 console.log(m);
-				console.log(m.fnFilter('info', 2).draw());
+				 filter= types;
+				 //reloads the dataTable with the new filtering options
+				 messageTable.api().ajax.reload();
 				 }
 		</script>
 <sec:authorize access="isAuthenticated()">
@@ -86,10 +91,11 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 			<b>Filter by Message Type:</b></br>
 			<form>
 			<div> 
-			<input onchange="filterme()" type="checkbox" name="type" value="Error|Warning|Info">All 
-			<input onchange="filterme()" type="checkbox" name="type" value="Error">Error
-			<input onchange="filterme()" type="checkbox" name="type" value="Warning">Warning 
-			<input onchange="filterme()" type="checkbox" name="type" value="Info">Info
+			<input onchange="filterme()" type="checkbox" name="type" value="ERROR|WARNING|INFO|DEBUG">All 
+			<input onchange="filterme()" type="checkbox" name="type" value="ERROR">Error
+			<input onchange="filterme()" type="checkbox" name="type" value="WARNING">Warning
+			<input onchange="filterme()" type="checkbox" name="type" value="DEBUG">Debug 
+			<input onchange="filterme()" type="checkbox" name="type" value="INFO">Info
 			<hr>
 			</div>
 			</form>
@@ -104,36 +110,7 @@ You did it. This basic webapp is all set up now. Try to login as "admin" with pa
 					</tr>
 				</thead>
 				<tbody>
-				
 				</tbody>
-				<!-- 
-				<tbody>
-					<div class="clearfix"></div>
-					<c:forEach items="${messages}" var="msg" varStatus="loopTracker">  -->
-
-						<!-- <div class="panel ${msg.type}" style="max-height: 200px; overflow-y: scroll;"> -->
-
-						<!-- <div class="panel-body"> -->
-				<!-- 		<tr>
-							<td><span class="label label-primary"><spring:message
-										code="appname.${msg.applicationId}" /></span></td>
-							<td><span class="date2">${msg.exceptionTimePrint}</span></td>
-							<td><c:if test="${msg.type == 'ERROR' }">
-									<span class="label label-danger test">Error</span>
-								</c:if> <c:if test="${msg.type == 'WARNING' }">
-									<span class="label label-warning test">Warning</span>
-								</c:if> <c:if test="${msg.type == 'INFO' }">
-									<span class="label label-info test">Info</span>
-								</c:if></td>
-							<td><b>${msg.title}</b></td>
-
-							<td>
-								<p>${msg.message}</p>
-								<p>${msg.stackTrace}</p>
-							</td>
-						</tr>  -->
-				<!-- 	</c:forEach>  
-				</tbody> -->
 			</table>
 		</div>
 
