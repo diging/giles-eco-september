@@ -21,7 +21,8 @@ public interface IMessageDbClient extends IDatabaseClient<IMessage> {
      *      The total number of messages stored in the DB
      */
     public abstract int getNumberOfMessages();
-
+    
+    // This method returns the number of messages after applying the filter selected by the user.
 	public abstract int getNumberOfFilteredMessages(String regex);
 
 }
