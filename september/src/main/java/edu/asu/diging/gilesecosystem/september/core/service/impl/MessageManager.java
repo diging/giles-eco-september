@@ -22,67 +22,67 @@ import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
 @Service
 public class MessageManager implements IMessageManager {
 
-	private final String SORT_FIELD_EXCEPTION_TIME = "exceptionTime";
+    private final String SORT_FIELD_EXCEPTION_TIME = "exceptionTime";
 
-	@Value("${db_page_size}")
-	private int pageSize;
+    @Value("${db_page_size}")
+    private int pageSize;
 
-	@Autowired
-	private IMessageDbClient dbClient;
+    @Autowired
+    private IMessageDbClient dbClient;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.asu.diging.gilesecosystem.september.core.service.impl.IMessageManager#
-	 * getAllMessages()
-	 */
-	@Override
-	public List<IMessage> getAllMessages() {
-		List<Message> results = dbClient.getMessages(0, 100, SORT_FIELD_EXCEPTION_TIME);
-		return convertToIMessages(results);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * edu.asu.diging.gilesecosystem.september.core.service.impl.IMessageManager#
+     * getAllMessages()
+     */
+    @Override
+    public List<IMessage> getAllMessages() {
+        List<Message> results = dbClient.getMessages(0, 100, SORT_FIELD_EXCEPTION_TIME);
+        return convertToIMessages(results);
+    }
 
-	/**
-	 * Method to get a specific page of messages.
-	 * 
-	 * @param page
-	 *            The page to retrieve starting at 0 to retrieve the first page.
-	 * @return Messages retrieved from the database backend.
-	 */
-	@Override
-	public List<IMessage> getMessages(int page) {
-		List<Message> results = dbClient.getMessages(page * pageSize, pageSize, SORT_FIELD_EXCEPTION_TIME);
-		return convertToIMessages(results);
-	}
+    /**
+     * Method to get a specific page of messages.
+     * 
+     * @param page
+     *            The page to retrieve starting at 0 to retrieve the first page.
+     * @return Messages retrieved from the database backend.
+     */
+    @Override
+    public List<IMessage> getMessages(int page) {
+        List<Message> results = dbClient.getMessages(page * pageSize, pageSize, SORT_FIELD_EXCEPTION_TIME);
+        return convertToIMessages(results);
+    }
 
-	private List<IMessage> convertToIMessages(List<Message> results) {
-		List<IMessage> messages = new ArrayList<IMessage>();
+    private List<IMessage> convertToIMessages(List<Message> results) {
+        List<IMessage> messages = new ArrayList<IMessage>();
 
-		results.forEach(new Consumer<IMessage>() {
-			@Override
-			public void accept(IMessage m) {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E yyyy MM dd, HH:mm:ss");
-				m.setExceptionDateTime(ZonedDateTime.parse(m.getExceptionTime()));
-				m.setExceptionTimePrint(formatter.format(m.getExceptionDateTime()));
-				messages.add(m);
-			}
+        results.forEach(new Consumer<IMessage>() {
+            @Override
+            public void accept(IMessage m) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E yyyy MM dd, HH:mm:ss");
+                m.setExceptionDateTime(ZonedDateTime.parse(m.getExceptionTime()));
+                m.setExceptionTimePrint(formatter.format(m.getExceptionDateTime()));
+                messages.add(m);
+            }
 
-		});
-		return messages;
-	}
+        });
+        return messages;
+    }
 
-	@Override
-	public int getNumberOfPages() {
-		int totalNr = dbClient.getNumberOfMessages();
-		return (int) Math.ceil(new Double(totalNr) / new Double(pageSize));
-	}
+    @Override
+    public int getNumberOfPages() {
+        int totalNr = dbClient.getNumberOfMessages();
+        return (int) Math.ceil(new Double(totalNr) / new Double(pageSize));
+    }
 
-	@Override
-	public List<IMessage> getMessages(int page, String type) {
-		List<Message> results = dbClient.getFilteredMessages(page * pageSize, pageSize, type,
-				SORT_FIELD_EXCEPTION_TIME);
-		return convertToIMessages(results);
-	}
+    @Override
+    public List<IMessage> getMessages(int page, String type) {
+        List<Message> results = dbClient.getFilteredMessages(page * pageSize, pageSize, type,
+                SORT_FIELD_EXCEPTION_TIME);
+        return convertToIMessages(results);
+    }
 
 }

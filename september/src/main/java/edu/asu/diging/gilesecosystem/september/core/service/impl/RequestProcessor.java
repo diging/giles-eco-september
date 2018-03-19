@@ -17,14 +17,19 @@ import edu.asu.diging.gilesecosystem.util.exceptions.UnstorableObjectException;
 @Transactional
 @Service
 public class RequestProcessor implements IRequestProcessor {
-    
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     @Autowired
     private IMessageDbClient dbClient;
 
-    /* (non-Javadoc)
-     * @see edu.asu.diging.gilesecosystem.september.core.service.impl.IRequestProcessor#processRequest(edu.asu.diging.gilesecosystem.requests.impl.ISystemMessageRequest)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * edu.asu.diging.gilesecosystem.september.core.service.impl.IRequestProcessor#
+     * processRequest(edu.asu.diging.gilesecosystem.requests.impl.
+     * ISystemMessageRequest)
      */
     @Override
     public void processRequest(ISystemMessageRequest request) {
@@ -36,7 +41,7 @@ public class RequestProcessor implements IRequestProcessor {
         msg.setType(MessageType.getByValue(request.getMessageType()));
         msg.setExceptionTime(request.getMessageTime());
         msg.setApplicationId(request.getApplicationId());
-        
+
         try {
             dbClient.store(msg);
         } catch (UnstorableObjectException e) {

@@ -4,11 +4,10 @@ import java.time.ZonedDateTime;
 
 import edu.asu.diging.gilesecosystem.util.store.IStorableObject;
 
-
 public interface IMessage extends IStorableObject {
 
     public void setId(String id);
-    
+
     public abstract MessageType getType();
 
     public abstract void setType(MessageType type);

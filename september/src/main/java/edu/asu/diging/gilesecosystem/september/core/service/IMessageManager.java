@@ -10,8 +10,8 @@ public interface IMessageManager {
 
     public abstract int getNumberOfPages();
 
-	public abstract List<IMessage> getMessages(int page);
+    public abstract List<IMessage> getMessages(int page);
 
-	public abstract List<IMessage> getMessages(int offset, String type);
+    public abstract List<IMessage> getMessages(int offset, String type);
 
 }

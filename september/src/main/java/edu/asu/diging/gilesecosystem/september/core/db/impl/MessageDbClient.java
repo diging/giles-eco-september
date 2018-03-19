@@ -27,100 +27,100 @@ import edu.asu.diging.gilesecosystem.util.store.objectdb.DatabaseClient;
 @Component
 public class MessageDbClient extends DatabaseClient<IMessage> implements IMessageDbClient {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@PersistenceContext(unitName = "DataPU")
-	private EntityManager em;
+    @PersistenceContext(unitName = "DataPU")
+    private EntityManager em;
 
-	@Override
-	protected String getIdPrefix() {
-		return "MSG";
-	}
+    @Override
+    protected String getIdPrefix() {
+        return "MSG";
+    }
 
-	@Override
-	protected IMessage getById(String id) {
-		return em.find(Message.class, id);
-	}
+    @Override
+    protected IMessage getById(String id) {
+        return em.find(Message.class, id);
+    }
 
-	@Override
-	protected EntityManager getClient() {
-		return em;
-	}
+    @Override
+    protected EntityManager getClient() {
+        return em;
+    }
 
-	@Override
-	public List<Message> getMessages() {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Message> query = builder.createQuery(Message.class);
-		Root<Message> root = query.from(Message.class);
-		query = query.select(root);
+    @Override
+    public List<Message> getMessages() {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Message> query = builder.createQuery(Message.class);
+        Root<Message> root = query.from(Message.class);
+        query = query.select(root);
 
-		return em.createQuery(query).getResultList();
-	}
+        return em.createQuery(query).getResultList();
+    }
 
-	@Override
-	public List<Message> getMessages(int offset, int pageSize, String sortField) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Message> query = builder.createQuery(Message.class);
-		Root<Message> root = query.from(Message.class);
-		query = query.select(root).orderBy(builder.desc(root.get(sortField)));
+    @Override
+    public List<Message> getMessages(int offset, int pageSize, String sortField) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Message> query = builder.createQuery(Message.class);
+        Root<Message> root = query.from(Message.class);
+        query = query.select(root).orderBy(builder.desc(root.get(sortField)));
 
-		TypedQuery<Message> finalQuery = em.createQuery(query);
-		finalQuery.setFirstResult(offset).setMaxResults(pageSize);
-		return finalQuery.getResultList();
-	}
+        TypedQuery<Message> finalQuery = em.createQuery(query);
+        finalQuery.setFirstResult(offset).setMaxResults(pageSize);
+        return finalQuery.getResultList();
+    }
 
-	public List<MessageType> filterStringtoList(String regex) {
-		List<MessageType> filter = new ArrayList<MessageType>();
-		StringTokenizer st = new StringTokenizer(regex, "|");
-		while (st.hasMoreTokens()) {
-			filter.add(MessageType.valueOf(st.nextToken()));
-		}
-		return filter;
+    public List<MessageType> filterStringtoList(String regex) {
+        List<MessageType> filter = new ArrayList<MessageType>();
+        StringTokenizer st = new StringTokenizer(regex, "|");
+        while (st.hasMoreTokens()) {
+            filter.add(MessageType.valueOf(st.nextToken()));
+        }
+        return filter;
 
-	}
+    }
 
-	@Override
-	public List<Message> getFilteredMessages(int offset, int pageSize, String regex, String sortField) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Message> query = builder.createQuery(Message.class);
-		Root<Message> root = query.from(Message.class);
-		query = query.select(root).where(root.get("type").in(filterStringtoList(regex)))
-				.orderBy(builder.desc(root.get(sortField)));
+    @Override
+    public List<Message> getFilteredMessages(int offset, int pageSize, String regex, String sortField) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Message> query = builder.createQuery(Message.class);
+        Root<Message> root = query.from(Message.class);
+        query = query.select(root).where(root.get("type").in(filterStringtoList(regex)))
+                .orderBy(builder.desc(root.get(sortField)));
 
-		TypedQuery<Message> finalQuery = em.createQuery(query);
-		finalQuery.setFirstResult(offset).setMaxResults(pageSize);
-		return finalQuery.getResultList();
-	}
+        TypedQuery<Message> finalQuery = em.createQuery(query);
+        finalQuery.setFirstResult(offset).setMaxResults(pageSize);
+        return finalQuery.getResultList();
+    }
 
-	@Override
-	public int getNumberOfMessages() {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Message> query = builder.createQuery(Message.class);
-		Root<Message> root = query.from(Message.class);
-		query = query.select(root);
+    @Override
+    public int getNumberOfMessages() {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Message> query = builder.createQuery(Message.class);
+        Root<Message> root = query.from(Message.class);
+        query = query.select(root);
 
-		return em.createQuery(query).getResultList().size();
-	}
+        return em.createQuery(query).getResultList().size();
+    }
 
-	@PreDestroy
-	public void shutdown() {
-		em.close();
-		em = null;
+    @PreDestroy
+    public void shutdown() {
+        em.close();
+        em = null;
 
-		try {
-			DriverManager.getConnection("jdbc:derby:;shutdown=true");
-		} catch (SQLException e) {
-			logger.error("Derby is shutdown.", e);
-		}
-	}
+        try {
+            DriverManager.getConnection("jdbc:derby:;shutdown=true");
+        } catch (SQLException e) {
+            logger.error("Derby is shutdown.", e);
+        }
+    }
 
-	@Override
-	public int getNumberOfFilteredMessages(String regex) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Message> query = builder.createQuery(Message.class);
-		Root<Message> root = query.from(Message.class);
-		query = query.select(root).where(root.get("type").in(filterStringtoList(regex)));
+    @Override
+    public int getNumberOfFilteredMessages(String regex) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Message> query = builder.createQuery(Message.class);
+        Root<Message> root = query.from(Message.class);
+        query = query.select(root).where(root.get("type").in(filterStringtoList(regex)));
 
-		return em.createQuery(query).getResultList().size();
-	}
+        return em.createQuery(query).getResultList().size();
+    }
 }
