@@ -69,7 +69,6 @@
 		});
 	}
 	jQuery(document).ready(function() {
-		console.log("Ready");
 		jQuery.each($(".date"), function(elem) {
 			var date = new Date(elem.text());
 			elem.text(date.toLocaleDateString());
@@ -81,7 +80,7 @@
 
 	});
 
-	function filterme() {
+	function filterCheckBoxSelection() {
 		//build a regex filter string with an or(|) condition
 		var types = jQuery('input:checkbox[name="type"]:checked').map(
 				function() {
@@ -101,13 +100,13 @@
 			<b>Filter by Message Type:</b></br>
 			<form>
 				<div>
-					<input onchange="filterme()" type="checkbox" name="type"
+					<input onchange="filterCheckBoxSelection()" type="checkbox" name="type"
 						value="ERROR|WARNING|INFO|DEBUG">All <input
-						onchange="filterme()" type="checkbox" name="type" value="ERROR">Error
-					<input onchange="filterme()" type="checkbox" name="type"
-						value="WARNING">Warning <input onchange="filterme()"
+						onchange="filterCheckBoxSelection()" type="checkbox" name="type" value="ERROR">Error
+					<input onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="WARNING">Warning <input onchange="filterCheckBoxSelection()"
 						type="checkbox" name="type" value="DEBUG">Debug <input
-						onchange="filterme()" type="checkbox" name="type" value="INFO">Info
+						onchange="filterCheckBoxSelection()" type="checkbox" name="type" value="INFO">Info
 					<hr>
 				</div>
 			</form>
