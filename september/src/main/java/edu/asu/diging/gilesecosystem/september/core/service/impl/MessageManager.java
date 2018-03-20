@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
+import edu.asu.diging.gilesecosystem.september.core.model.MessageType;
 import edu.asu.diging.gilesecosystem.september.core.model.impl.Message;
 import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
 
@@ -80,9 +82,28 @@ public class MessageManager implements IMessageManager {
 
     @Override
     public List<IMessage> getMessages(int page, String type) {
-        List<Message> results = dbClient.getFilteredMessages(page * pageSize, pageSize, type,
+        List<MessageType> filterType = filterStringtoList(type);
+        List<Message> results = dbClient.getFilteredMessages(page * pageSize, pageSize, filterType,
                 SORT_FIELD_EXCEPTION_TIME);
         return convertToIMessages(results);
+    }
+
+    private List<MessageType> filterStringtoList(String regex) {
+        List<MessageType> filter = new ArrayList<MessageType>();
+        StringTokenizer st = new StringTokenizer(regex, "|");
+        while (st.hasMoreTokens()) {
+            filter.add(MessageType.valueOf(st.nextToken()));
+        }
+        return filter;
+
+    }
+
+    @Override
+    public int getNumberofFilteredMessages(String type) {
+        // TODO Auto-generated method stub
+        List<MessageType> filterType = filterStringtoList(type);
+        int totalFltrNr = dbClient.getNumberOfFilteredMessages(filterType);
+        return totalFltrNr;
     }
 
 }

@@ -82,11 +82,9 @@
 
 	function filterCheckBoxSelection() {
 		//build a regex filter string with an or(|) condition
-		var types = jQuery('input:checkbox[name="type"]:checked').map(
-				function() {
-					return this.value;
-				}).get().join('|');
-		filter = types;
+		filter = jQuery('input:checkbox[name="type"]:checked').map(function() {
+			return this.value;
+		}).get().join('|');
 		//reloads the dataTable with the new filtering options
 		messageTable.api().ajax.reload();
 	}
@@ -100,13 +98,16 @@
 			<b>Filter by Message Type:</b></br>
 			<form>
 				<div>
-					<input onchange="filterCheckBoxSelection()" type="checkbox" name="type"
-						value="ERROR|WARNING|INFO|DEBUG">All <input
-						onchange="filterCheckBoxSelection()" type="checkbox" name="type" value="ERROR">Error
-					<input onchange="filterCheckBoxSelection()" type="checkbox" name="type"
-						value="WARNING">Warning <input onchange="filterCheckBoxSelection()"
-						type="checkbox" name="type" value="DEBUG">Debug <input
-						onchange="filterCheckBoxSelection()" type="checkbox" name="type" value="INFO">Info
+					<input onchange="filterCheckBoxSelection()" type="checkbox"
+						name="type" value="ERROR|WARNING|INFO|DEBUG">All <input
+						onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="ERROR">Error <input
+						onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="WARNING">Warning <input
+						onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="DEBUG">Debug <input
+						onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="INFO">Info
 					<hr>
 				</div>
 			</form>

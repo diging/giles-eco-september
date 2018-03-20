@@ -2,10 +2,7 @@ package edu.asu.diging.gilesecosystem.september.core.db.impl;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-
 import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -69,23 +66,12 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
         return finalQuery.getResultList();
     }
 
-    public List<MessageType> filterStringtoList(String regex) {
-        List<MessageType> filter = new ArrayList<MessageType>();
-        StringTokenizer st = new StringTokenizer(regex, "|");
-        while (st.hasMoreTokens()) {
-            filter.add(MessageType.valueOf(st.nextToken()));
-        }
-        return filter;
-
-    }
-
     @Override
-    public List<Message> getFilteredMessages(int offset, int pageSize, String regex, String sortField) {
+    public List<Message> getFilteredMessages(int offset, int pageSize, List<MessageType> regex, String sortField) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Message> query = builder.createQuery(Message.class);
         Root<Message> root = query.from(Message.class);
-        query = query.select(root).where(root.get("type").in(filterStringtoList(regex)))
-                .orderBy(builder.desc(root.get(sortField)));
+        query = query.select(root).where(root.get("type").in(regex)).orderBy(builder.desc(root.get(sortField)));
 
         TypedQuery<Message> finalQuery = em.createQuery(query);
         finalQuery.setFirstResult(offset).setMaxResults(pageSize);
@@ -115,11 +101,11 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
     }
 
     @Override
-    public int getNumberOfFilteredMessages(String regex) {
+    public int getNumberOfFilteredMessages(List<MessageType> regex) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Message> query = builder.createQuery(Message.class);
         Root<Message> root = query.from(Message.class);
-        query = query.select(root).where(root.get("type").in(filterStringtoList(regex)));
+        query = query.select(root).where(root.get("type").in(regex));
 
         return em.createQuery(query).getResultList().size();
     }

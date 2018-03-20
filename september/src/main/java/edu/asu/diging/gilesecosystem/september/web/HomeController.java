@@ -53,7 +53,7 @@ public class HomeController {
         } else {
             dataTableMessages = manager.getMessages(offset, type);
             totalRecords = client.getNumberOfMessages();
-            filteredRecords = client.getNumberOfFilteredMessages(type);
+            filteredRecords = manager.getNumberofFilteredMessages(type);
             dataTableData.setrecordsFiltered(filteredRecords);
         }
 

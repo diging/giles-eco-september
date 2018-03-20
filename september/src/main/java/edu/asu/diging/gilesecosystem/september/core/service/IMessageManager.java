@@ -14,4 +14,6 @@ public interface IMessageManager {
 
     public abstract List<IMessage> getMessages(int offset, String type);
 
+    public abstract int getNumberofFilteredMessages(String type);
+
 }
