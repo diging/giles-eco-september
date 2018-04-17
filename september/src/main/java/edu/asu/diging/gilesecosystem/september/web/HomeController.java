@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.asu.diging.gilesecosystem.september.core.datatable.IDataTableData;
+import edu.asu.diging.gilesecosystem.september.core.datatable.impl.DataTableData;
 import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
-import edu.asu.diging.gilesecosystem.september.core.model.impl.DataTableData;
 import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
 
 @Controller
@@ -22,7 +23,7 @@ public class HomeController {
     private IMessageManager manager;
 
     @Autowired
-    private IMessageDbClient client;
+    private IMessageDbClient dbClient;
 
     @RequestMapping(value = "/")
     public String home(Principal principal, Model model, @RequestParam(defaultValue = "0") int page) {
@@ -34,32 +35,31 @@ public class HomeController {
         model.addAttribute("messages", messages);
         model.addAttribute("totalPages", manager.getNumberOfPages());
         model.addAttribute("currentPageValue", page);
-        System.out.println("Messages Size: " + messages.size());
         return "home";
     }
 
     @RequestMapping(value = "/datatable")
-    public @ResponseBody DataTableData doGet(@RequestParam int draw, @RequestParam int start, @RequestParam String type)
+    public @ResponseBody IDataTableData doGet(@RequestParam int draw, @RequestParam int start, @RequestParam String type)
             throws Exception {
-        DataTableData dataTableData = new DataTableData();
+        IDataTableData dataTableData = new DataTableData();
         List<IMessage> dataTableMessages = null;
         int totalRecords = 0;
         int filteredRecords = 0;
         int offset = start / 10;
+        
+        totalRecords = dbClient.getNumberOfMessages();
         if (type.equals("")) {
             dataTableMessages = manager.getMessages(offset);
-            totalRecords = client.getNumberOfMessages();
-            dataTableData.setrecordsFiltered(totalRecords);
+            dataTableData.setRecordsFiltered(totalRecords);
         } else {
             dataTableMessages = manager.getMessages(offset, type);
-            totalRecords = client.getNumberOfMessages();
             filteredRecords = manager.getNumberofFilteredMessages(type);
-            dataTableData.setrecordsFiltered(filteredRecords);
+            dataTableData.setRecordsFiltered(filteredRecords);
         }
 
-        dataTableData.setdraw(draw);
-        dataTableData.setdata(dataTableMessages);
-        dataTableData.setrecordsTotal(totalRecords);
+        dataTableData.setDraw(draw);
+        dataTableData.setData(dataTableMessages);
+        dataTableData.setRecordsTotal(totalRecords);
         return dataTableData;
 
     }

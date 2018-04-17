@@ -4,7 +4,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,11 +87,12 @@ public class MessageManager implements IMessageManager {
         return convertToIMessages(results);
     }
 
-    private List<MessageType> filterStringtoList(String regex) {
+    private List<MessageType> filterStringtoList(String filterTypes) {
         List<MessageType> filter = new ArrayList<MessageType>();
-        StringTokenizer st = new StringTokenizer(regex, "|");
-        while (st.hasMoreTokens()) {
-            filter.add(MessageType.valueOf(st.nextToken()));
+        String[] filterType= filterTypes.split("\\|");
+        for(int i=0;i<filterType.length;i++)
+        {
+            filter.add(MessageType.valueOf(filterType[i]));
         }
         return filter;
 
