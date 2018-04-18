@@ -9,7 +9,7 @@
 
     <properties>
         <geco.september.version>0.2-SNAPSHOT</geco.september.version>
-        <geco.util.version>0.4.3-SNAPSHOT</geco.util.version>
+		<geco.util.version>0.4.3</geco.util.version>
         <geco.requests.version>0.7</geco.requests.version>
 
         <org.slf4j-version>1.7.5</org.slf4j-version>
