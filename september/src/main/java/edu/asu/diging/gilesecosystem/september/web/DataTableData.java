@@ -1,69 +1,60 @@
-package edu.asu.diging.gilesecosystem.september.core.datatable.impl;
+package edu.asu.diging.gilesecosystem.september.web;
 
 import java.util.List;
 
-import edu.asu.diging.gilesecosystem.september.core.datatable.IDataTableData;
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
 
 /**
  * DataTableData class is for setting and retrieving various 
- * attributes required for Data Table plug-in.
- *
+ * attributes required for DataTable plug-in which can be used to
+ * display the kind of messages and it can be filtered by the message type
  * @author Abhijith Krishnan Radhakrishna Kurup
  */
 
-public class DataTableData implements IDataTableData {
+public class DataTableData {
 
-    int draw;
-    int recordsTotal;
-    int recordsFiltered;
-    List<IMessage> data;
+    private int draw;
+    private int recordsTotal;
+    private int recordsFiltered;
+    private List<IMessage> data;
 
-    @Override
     public int getDraw() {
         // TODO Auto-generated method stub
         return draw;
     }
 
-    @Override
     public int getRecordsTotal() {
         // TODO Auto-generated method stub
         return recordsTotal;
     }
 
-    @Override
     public int getRecordsFiltered() {
         // TODO Auto-generated method stub
         return recordsFiltered;
     }
 
-    @Override
     public List<IMessage> getData() {
         return data;
     }
 
-    @Override
     public void setDraw(int draw) {
         // TODO Auto-generated method stub
         this.draw = draw;
 
     }
 
-    @Override
     public void setRecordsTotal(int recordsTotal) {
         // TODO Auto-generated method stub
         this.recordsTotal = recordsTotal;
 
     }
 
-    @Override
     public void setRecordsFiltered(int recordsFiltered) {
         // TODO Auto-generated method stub
         this.recordsFiltered = recordsFiltered;
 
     }
 
-    @Override
     public void setData(List<IMessage> data) {
         this.data = data;
     }

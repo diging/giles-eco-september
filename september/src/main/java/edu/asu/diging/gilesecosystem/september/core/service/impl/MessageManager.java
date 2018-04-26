@@ -99,11 +99,11 @@ public class MessageManager implements IMessageManager {
     }
 
     @Override
-    public int getNumberofFilteredMessages(String type) {
+    public int getNumberofFilteredMessages(String messageType) {
         // TODO Auto-generated method stub
-        List<MessageType> filterType = filterStringtoList(type);
-        int totalFltrNr = dbClient.getNumberOfFilteredMessages(filterType);
-        return totalFltrNr;
+        List<MessageType> filterType = filterStringtoList(messageType);
+        int totalFlteredNumber = dbClient.getNumberOfFilteredMessages(filterType);
+        return totalFlteredNumber;
     }
 
 }

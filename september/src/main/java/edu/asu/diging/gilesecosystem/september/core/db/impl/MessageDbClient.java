@@ -101,11 +101,11 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
     }
 
     @Override
-    public int getNumberOfFilteredMessages(List<MessageType> regex) {
+    public int getNumberOfFilteredMessages(List<MessageType> messageType) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Message> query = builder.createQuery(Message.class);
         Root<Message> root = query.from(Message.class);
-        query = query.select(root).where(root.get("type").in(regex));
+        query = query.select(root).where(root.get("type").in(messageType));
 
         return em.createQuery(query).getResultList().size();
     }
