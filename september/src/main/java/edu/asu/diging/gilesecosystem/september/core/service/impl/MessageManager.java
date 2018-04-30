@@ -3,8 +3,10 @@ package edu.asu.diging.gilesecosystem.september.core.service.impl;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,9 +36,8 @@ public class MessageManager implements IMessageManager {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * edu.asu.diging.gilesecosystem.september.core.service.impl.IMessageManager#
-     * getAllMessages()
+     * @see edu.asu.diging.gilesecosystem.september.core.service.impl.
+     * IMessageManager# getAllMessages()
      */
     @Override
     public List<IMessage> getAllMessages() {
@@ -53,7 +54,8 @@ public class MessageManager implements IMessageManager {
      */
     @Override
     public List<IMessage> getMessages(int page) {
-        List<Message> results = dbClient.getMessages(page * pageSize, pageSize, SORT_FIELD_EXCEPTION_TIME);
+        List<Message> results = dbClient.getMessages(page * pageSize, pageSize,
+                SORT_FIELD_EXCEPTION_TIME);
         return convertToIMessages(results);
     }
 
@@ -63,7 +65,8 @@ public class MessageManager implements IMessageManager {
         results.forEach(new Consumer<IMessage>() {
             @Override
             public void accept(IMessage m) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E yyyy MM dd, HH:mm:ss");
+                DateTimeFormatter formatter = DateTimeFormatter
+                        .ofPattern("E yyyy MM dd, HH:mm:ss");
                 m.setExceptionDateTime(ZonedDateTime.parse(m.getExceptionTime()));
                 m.setExceptionTimePrint(formatter.format(m.getExceptionDateTime()));
                 messages.add(m);
@@ -78,7 +81,7 @@ public class MessageManager implements IMessageManager {
         int totalNr = dbClient.getNumberOfMessages();
         return (int) Math.ceil(new Double(totalNr) / new Double(pageSize));
     }
-    
+
     @Override
     public int getDefaultPageSize() {
         return pageSize;
@@ -86,29 +89,20 @@ public class MessageManager implements IMessageManager {
 
     @Override
     public List<IMessage> getMessages(int page, String type) {
-        List<MessageType> filterType = filterStringtoList(type);
-        List<Message> results = dbClient.getFilteredMessages(page * pageSize, pageSize, filterType,
-                SORT_FIELD_EXCEPTION_TIME);
+        List<MessageType> filterType = filterStringToList(type);
+        List<Message> results = dbClient.getFilteredMessages(page * pageSize, pageSize,
+                filterType, SORT_FIELD_EXCEPTION_TIME);
         return convertToIMessages(results);
     }
 
-    private List<MessageType> filterStringtoList(String filterTypes) {
-        List<MessageType> filter = new ArrayList<MessageType>();
-        String[] filterType= filterTypes.split("\\|");
-        for(int i=0;i<filterType.length;i++)
-        {
-            filter.add(MessageType.valueOf(filterType[i]));
-        }
-        return filter;
-
-    }
-
     @Override
-    public int getNumberofFilteredMessages(String messageType) {
-        // TODO Auto-generated method stub
-        List<MessageType> filterType = filterStringtoList(messageType);
-        int totalFlteredNumber = dbClient.getNumberOfFilteredMessages(filterType);
-        return totalFlteredNumber;
+    public int getNumberOfFilteredMessages(String messageType) {
+        return dbClient.getNumberOfFilteredMessages(filterStringToList(messageType));
     }
 
+    private List<MessageType> filterStringToList(String filterTypes) {
+        return Arrays.asList(filterTypes.split("\\|")).stream()
+                .map(m -> MessageType.valueOf(m)).collect(Collectors.toList());
+
+    }
 }

@@ -18,6 +18,6 @@ public interface IMessageDbClient extends IDatabaseClient<IMessage> {
 
     public abstract int getNumberOfMessages();
 
-    public abstract int getNumberOfFilteredMessages(List<MessageType> regex);
+    public abstract int getNumberOfFilteredMessages(List<MessageType> types);
 
 }

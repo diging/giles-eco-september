@@ -56,7 +56,7 @@ public class HomeController {
             dataTableData.setRecordsFiltered(totalRecords);
         } else {
             dataTableMessages = messageManager.getMessages(offset, type);
-            dataTableData.setRecordsFiltered(messageManager.getNumberofFilteredMessages(type));
+            dataTableData.setRecordsFiltered(messageManager.getNumberOfFilteredMessages(type));
         }
 
         dataTableMessages.forEach(m -> m.setApplicationId(messageSource.getMessage("appname." + m.getApplicationId(), null, locale)));
