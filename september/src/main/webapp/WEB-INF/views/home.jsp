@@ -11,28 +11,6 @@
 			as "admin" with password "admin".</p>
 	</div>
 </sec:authorize>
-<!-- Bootstrap CSS Files -->
-<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="/resources/bootstrap/css/bootstrap-theme.css"
-	rel="stylesheet">
-<link href="/resources/bootstrap/css/dataTables.bootstrap.css"
-	rel="stylesheet">
-
-<!-- JQuery Plugin -->
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-2.2.4.js"></script>
-<!-- Bootstrap Plugin -->
-<script type="text/javascript"
-	src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
-<!-- Data Table Plugin -->
-<script type="text/javascript"
-	src="<c:url value="/resources/bootstrap/js/jquery.dataTables.js" />"></script>
-<!-- Data Table Bootstrap Plugin -->
-<script type="text/javascript"
-	src="<c:url value="/resources/bootstrap/js/dataTables.bootstrap.js" />"></script>
-<!-- Pagination Plugin -->
-<script type="text/javascript"
-	src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
 
 <script>
 	var messageTable;
@@ -42,13 +20,14 @@
 			"processing" : true,
 			"serverSide" : true,
 			"paging" : true,
+			"ordering": false,
 			"bFilter" : false,
 			"bLengthChange" : false,
 			"info" : true,
 			"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
 			"deferRender" : true,
 			"ajax" : {
-				"url" : "datatable",
+				"url" : "<c:url value="/admin/messages" />",
 				"contentType" : "application/json",
 				"data" : function(d) {
 					d.type = filter;
@@ -60,7 +39,22 @@
 			}, {
 				"data" : "exceptionTimePrint"
 			}, {
-				"data" : "type"
+				"data" : "type",
+				"render": function ( data, type, row, meta ) {
+				    if (data == 'ERROR') {
+				        return '<span class="label label-danger">Error</span>';
+				    }
+				    if (data == 'INFO') {
+				        return '<span class="label label-primary">Info</span>';
+				    }
+				    if (data == 'WARNING') {
+				        return '<span class="label label-warning">Warning</span>';
+				    }
+				    if (data == 'DEBUG') {
+                        return '<span class="label label-info">Debug</span>';
+                    }
+				    return '<span class="label label-default">' + data + '</span>';
+			    }
 			}, {
 				"data" : "title"
 			}, {
@@ -99,19 +93,19 @@
 			<form>
 				<div>
 					<input onchange="filterCheckBoxSelection()" type="checkbox"
-						name="type" value="ERROR|WARNING|INFO|DEBUG">All <input
-						onchange="filterCheckBoxSelection()" type="checkbox" name="type"
-						value="ERROR">Error <input
-						onchange="filterCheckBoxSelection()" type="checkbox" name="type"
-						value="WARNING">Warning <input
-						onchange="filterCheckBoxSelection()" type="checkbox" name="type"
-						value="DEBUG">Debug <input
-						onchange="filterCheckBoxSelection()" type="checkbox" name="type"
-						value="INFO">Info
+						name="type" value="ERROR|WARNING|INFO|DEBUG"> All 
+					<input style="margin-left: 10px;" onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="ERROR"> <span class="label label-danger">Error</span> 
+					<input style="margin-left: 10px;" onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="WARNING"> <span class="label label-warning">Warning</span> 
+					<input style="margin-left: 10px;" onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="DEBUG"> <span class="label label-info">Debug</span> 
+					<input style="margin-left: 10px;" onchange="filterCheckBoxSelection()" type="checkbox" name="type"
+						value="INFO"> <span class="label label-primary">Info</span>
 					<hr>
 				</div>
 			</form>
-			<table id="messageTable" class="table table-striped table-bordered">
+			<table id="messageTable" class="table table-striped table-bordered" data-page-length='${pageSize}'>
 				<thead>
 					<tr>
 						<th>App Name</th>

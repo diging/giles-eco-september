@@ -78,6 +78,11 @@ public class MessageManager implements IMessageManager {
         int totalNr = dbClient.getNumberOfMessages();
         return (int) Math.ceil(new Double(totalNr) / new Double(pageSize));
     }
+    
+    @Override
+    public int getDefaultPageSize() {
+        return pageSize;
+    }
 
     @Override
     public List<IMessage> getMessages(int page, String type) {

@@ -2,8 +2,10 @@ package edu.asu.diging.gilesecosystem.september.web;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +20,13 @@ import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
 public class HomeController {
 
     @Autowired
-    private IMessageManager manager;
+    private IMessageManager messageManager;
 
     @Autowired
     private IMessageDbClient dbClient;
+    
+    @Autowired
+    private MessageSource messageSource;
 
     @RequestMapping(value = "/")
     public String home(Principal principal, Model model, @RequestParam(defaultValue = "0") int page) {
@@ -29,32 +34,32 @@ public class HomeController {
             return "home";
         }
 
-        List<IMessage> messages = manager.getMessages(page);
+        List<IMessage> messages = messageManager.getMessages(page);
         model.addAttribute("messages", messages);
-        model.addAttribute("totalPages", manager.getNumberOfPages());
+        model.addAttribute("totalPages", messageManager.getNumberOfPages());
         model.addAttribute("currentPageValue", page);
+        model.addAttribute("pageSize", messageManager.getDefaultPageSize());
         return "home";
     }
 
-    @RequestMapping(value = "/datatable")
-    public @ResponseBody DataTableData doGet(@RequestParam int draw, @RequestParam int start, @RequestParam String type, @RequestParam int length)
+    @RequestMapping(value = "/admin/messages")
+    public @ResponseBody DataTableData doGet(@RequestParam int draw, @RequestParam int start, @RequestParam String type, Locale locale)
             throws Exception {
         DataTableData dataTableData = new DataTableData();
-        List<IMessage> dataTableMessages = null;
-        int totalRecords = 0;
-        int filteredRecords = 0;
-        int offset = start / length;
+        dataTableData.setPageSize(messageManager.getDefaultPageSize());
+        int offset = start / messageManager.getDefaultPageSize();
         
-        totalRecords = dbClient.getNumberOfMessages();
-        if (type.equals("")) {
-            dataTableMessages = manager.getMessages(offset);
+        List<IMessage> dataTableMessages = null;
+        int totalRecords = dbClient.getNumberOfMessages();
+        if (type.trim().isEmpty()) {
+            dataTableMessages = messageManager.getMessages(offset);
             dataTableData.setRecordsFiltered(totalRecords);
         } else {
-            dataTableMessages = manager.getMessages(offset, type);
-            filteredRecords = manager.getNumberofFilteredMessages(type);
-            dataTableData.setRecordsFiltered(filteredRecords);
+            dataTableMessages = messageManager.getMessages(offset, type);
+            dataTableData.setRecordsFiltered(messageManager.getNumberofFilteredMessages(type));
         }
 
+        dataTableMessages.forEach(m -> m.setApplicationId(messageSource.getMessage("appname." + m.getApplicationId(), null, locale)));
         dataTableData.setDraw(draw);
         dataTableData.setData(dataTableMessages);
         dataTableData.setRecordsTotal(totalRecords);

@@ -16,4 +16,6 @@ public interface IMessageManager {
 
     public abstract int getNumberofFilteredMessages(String type);
 
+    int getDefaultPageSize();
+
 }
