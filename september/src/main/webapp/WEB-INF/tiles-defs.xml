@@ -17,6 +17,10 @@
 	<definition name="home" extends="base.definition">
 		<put-attribute name="content" value="/WEB-INF/views/home.jsp" />	
 	</definition>
+    
+    <definition name="admin/services" extends="base.definition">
+        <put-attribute name="content" value="/WEB-INF/views/services.jsp" />    
+    </definition>
 	
 	
 </tiles-definitions>
