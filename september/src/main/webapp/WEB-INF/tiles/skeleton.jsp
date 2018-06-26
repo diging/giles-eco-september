@@ -21,6 +21,12 @@
 
     <!-- Bootstrap core CSS -->
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
+    
+    <!-- Bootstrap CSS Files -->
+	<link href="<c:url value="/resources/bootstrap/css/bootstrap-theme.css" />"
+	    rel="stylesheet">
+	<link href="<c:url value="/resources/bootstrap/css/dataTables.bootstrap.css" />"
+	    rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="<c:url value="/resources/bootstrap/assets/css/ie10-viewport-bug-workaround.css" />" rel="stylesheet">
@@ -38,9 +44,19 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.js"></script>
  	<script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 	<script src="<c:url value="/resources/bootstrap/js/main.js" />"></script>
+	
+	<!-- Data Table Plugin -->
+    <script type="text/javascript"
+        src="<c:url value="/resources/bootstrap/js/jquery.dataTables.js" />"></script>
+	<!-- Data Table Bootstrap Plugin -->
+	<script type="text/javascript"
+	    src="<c:url value="/resources/bootstrap/js/dataTables.bootstrap.js" />"></script>
+	<!-- Pagination Plugin -->
+	<script type="text/javascript"
+	    src="<c:url value="/resources/bootstrap/js/jquery.simplePagination.js" />"></script>
   </head>
 
   <body>
@@ -49,11 +65,14 @@
       <div class="page-header">
       <nav>
           <ul class="nav nav-pills pull-right">
-          <li role="presentation">
+            <li role="presentation">
           		<a href="<c:url value="/" />" >Home</a>
           	</li>
           	
           	<sec:authorize access="isAuthenticated()">
+          	<li role="presentation">
+                <a href="<c:url value="/admin/services" />" >Services</a>
+            </li>
           	<li role="presentation">
          	 	<form action="<c:url value="/logout" />" method="POST">
          	 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

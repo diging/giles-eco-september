@@ -9,8 +9,8 @@
 
     <properties>
         <geco.september.version>0.2-SNAPSHOT</geco.september.version>
-        <geco.util.version>0.4.2</geco.util.version>
-        <geco.requests.version>0.6</geco.requests.version>
+		<geco.util.version>0.4.3</geco.util.version>
+        <geco.requests.version>0.7</geco.requests.version>
 
         <org.slf4j-version>1.7.5</org.slf4j-version>
         <org.springframework-version>4.3.1.RELEASE</org.springframework-version>
@@ -29,6 +29,10 @@
         <tomcat.server.id></tomcat.server.id>
         <tomcat.path></tomcat.path>
         <tomcat.app></tomcat.app>
+        
+        <!-- Zookeeper -->
+        <zookeeper.host>localhost</zookeeper.host>
+        <zookeeper.port>2181</zookeeper.port>
     </properties>
 
     <dependencies>
@@ -230,6 +234,14 @@
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <version>2.6.4</version>
+        </dependency>
+        
+        <!-- Curator to connect to Zookeeper -->
+        <!-- https://mvnrepository.com/artifact/org.apache.curator/curator-framework -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>2.12.0</version>
         </dependency>
 
     </dependencies>
