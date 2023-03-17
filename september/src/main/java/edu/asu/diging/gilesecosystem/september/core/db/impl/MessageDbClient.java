@@ -1,7 +1,5 @@
 package edu.asu.diging.gilesecosystem.september.core.db.impl;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
@@ -91,13 +89,6 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
     @PreDestroy
     public void shutdown() {
         em.close();
-        em = null;
-
-        try {
-            DriverManager.getConnection("jdbc:derby:;shutdown=true");
-        } catch (SQLException e) {
-            logger.error("Derby is shutdown.", e);
-        }
     }
 
     @Override
