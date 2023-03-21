@@ -6,12 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
 import edu.asu.diging.gilesecosystem.september.core.model.MessageType;
 
 @Entity
+@Table
 public class Message implements IMessage {
 
     @Id

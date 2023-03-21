@@ -24,7 +24,7 @@ import edu.asu.diging.gilesecosystem.util.store.objectdb.DatabaseClient;
 public class ArchiveMessageDbClient extends DatabaseClient<IArchiveMessage> implements IArchiveMessageDbClient {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    @PersistenceContext(unitName = "archiveMessageEntityManager")
+    @PersistenceContext(unitName = "DataPU")
     private EntityManager em;
     
     @Override

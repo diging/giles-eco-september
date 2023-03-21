@@ -9,8 +9,9 @@
 
     <properties>
         <geco.september.version>0.2-SNAPSHOT</geco.september.version>
-		<geco.util.version>0.4.3</geco.util.version>
-        <geco.requests.version>0.7</geco.requests.version>
+		<geco.util.version>0.6</geco.util.version>
+        <geco.requests.version>0.13</geco.requests.version>
+        <com.fasterxml.jackson.version>2.12.0-rc1</com.fasterxml.jackson.version>
 
         <org.slf4j-version>1.7.5</org.slf4j-version>
         <org.springframework-version>4.3.1.RELEASE</org.springframework-version>
@@ -21,7 +22,7 @@
 
         <september.kafka.hosts>localhost:9092</september.kafka.hosts>
 
-        <september.db_files></september.db_files>
+        <september.db_files>/Users/diyabiju/Documents</september.db_files>
         <pullrequest></pullrequest>
         <buildNumber></buildNumber>
 
@@ -33,22 +34,85 @@
         <!-- Zookeeper -->
         <zookeeper.host>localhost</zookeeper.host>
         <zookeeper.port>2181</zookeeper.port>
+        
+        <!-- DB config -->
+        <db.driver>com.mysql.jdbc.Driver</db.driver>
+        <db.database.url></db.database.url>
+        <db.user></db.user>
+        <db.password></db.password>
+        <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+        <hibernate.log.sql>false</hibernate.log.sql>
     </properties>
 
     <dependencies>
 
         <!-- Giles Eco -->
         <dependency>
-            <groupId>edu.asu.diging.giles-eco</groupId>
-            <artifactId>util</artifactId>
+            <groupId>edu.asu.diging</groupId>
+            <artifactId>giles-eco-util</artifactId>
             <version>${geco.util.version}</version>
         </dependency>
         <dependency>
-            <groupId>edu.asu.diging.giles-eco</groupId>
-            <artifactId>requests</artifactId>
+            <groupId>edu.asu.diging</groupId>
+            <artifactId>giles-eco-requests</artifactId>
             <version>${geco.requests.version}</version>
         </dependency>
+        
+        
+		<!-- Java 8 Date/time -->
+		<dependency>
+    		<groupId>com.fasterxml.jackson.datatype</groupId>
+    		<artifactId>jackson-datatype-jsr310</artifactId>
+    		<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.29</version>
+        </dependency>
+        
+        <!-- DataSource (HikariCP) -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.6.1</version>
+        </dependency>
 
+        <!-- JPA Provider (Hibernate) -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.2.9.Final</version>
+        </dependency>
+
+        <!-- Spring Data JPA -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>1.11.1.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        
+        <dependency>
+    		<groupId>javax.xml.bind</groupId>
+    		<artifactId>jaxb-api</artifactId>
+    		<version>2.4.0-b180830.0359</version>
+		</dependency>
+		
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -286,8 +350,8 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>11</source>
+                        <target>11</target>
                     </configuration>
                 </plugin>
                 <plugin>

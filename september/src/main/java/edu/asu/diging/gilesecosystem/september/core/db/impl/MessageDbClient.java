@@ -24,7 +24,7 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @PersistenceContext(unitName = "DataPU")
+    @PersistenceContext(unitName = "entityManagerFactory")
     private EntityManager em;
 
     @Override

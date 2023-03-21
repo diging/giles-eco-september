@@ -3,6 +3,7 @@ package edu.asu.diging.gilesecosystem.september.core.model.impl;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Transient;
@@ -10,6 +11,7 @@ import javax.persistence.Transient;
 import edu.asu.diging.gilesecosystem.september.core.model.IArchiveMessage;
 import edu.asu.diging.gilesecosystem.september.core.model.MessageType;
 
+@Entity
 public class ArchiveMessage implements IArchiveMessage {
     @Id
     private String id;
