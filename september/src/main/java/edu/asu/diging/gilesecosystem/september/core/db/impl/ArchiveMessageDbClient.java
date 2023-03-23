@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import edu.asu.diging.gilesecosystem.september.core.db.IArchiveMessageDbClient;
 import edu.asu.diging.gilesecosystem.september.core.model.IArchiveMessage;
@@ -21,6 +22,7 @@ import edu.asu.diging.gilesecosystem.september.core.model.MessageType;
 import edu.asu.diging.gilesecosystem.september.core.model.impl.ArchiveMessage;
 import edu.asu.diging.gilesecosystem.util.store.objectdb.DatabaseClient;
 
+@Component
 public class ArchiveMessageDbClient extends DatabaseClient<IArchiveMessage> implements IArchiveMessageDbClient {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     

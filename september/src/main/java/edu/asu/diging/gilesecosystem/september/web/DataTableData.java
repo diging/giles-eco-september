@@ -2,6 +2,7 @@ package edu.asu.diging.gilesecosystem.september.web;
 
 import java.util.List;
 
+import edu.asu.diging.gilesecosystem.september.core.model.IArchiveMessage;
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
 
 /**
@@ -17,6 +18,7 @@ public class DataTableData {
     private int recordsTotal;
     private int recordsFiltered;
     private List<IMessage> data;
+    private List<IArchiveMessage> archivedData;
     private int pageSize;
 
     public int getDraw() {
@@ -33,6 +35,10 @@ public class DataTableData {
 
     public List<IMessage> getData() {
         return data;
+    }
+    
+    public List<IArchiveMessage> getArchiveData() {
+        return archivedData;
     }
 
     public void setDraw(int draw) {
@@ -51,6 +57,10 @@ public class DataTableData {
 
     public void setData(List<IMessage> data) {
         this.data = data;
+    }
+    
+    public void setArchivedData(List<IArchiveMessage> archivedData) {
+        this.archivedData = archivedData;
     }
 
     public int getPageSize() {

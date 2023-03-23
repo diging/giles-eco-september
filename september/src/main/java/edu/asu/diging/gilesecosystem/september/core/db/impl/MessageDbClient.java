@@ -9,8 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
@@ -21,8 +19,6 @@ import edu.asu.diging.gilesecosystem.util.store.objectdb.DatabaseClient;
 
 @Component
 public class MessageDbClient extends DatabaseClient<IMessage> implements IMessageDbClient {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @PersistenceContext(unitName = "entityManagerFactory")
     private EntityManager em;

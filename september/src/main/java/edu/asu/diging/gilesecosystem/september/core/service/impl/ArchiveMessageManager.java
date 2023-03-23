@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.asu.diging.gilesecosystem.september.core.db.IArchiveMessageDbClient;
 import edu.asu.diging.gilesecosystem.september.core.model.IArchiveMessage;
@@ -17,6 +20,9 @@ import edu.asu.diging.gilesecosystem.september.core.model.MessageType;
 import edu.asu.diging.gilesecosystem.september.core.model.impl.ArchiveMessage;
 import edu.asu.diging.gilesecosystem.september.core.service.IArchiveMessageManager;
 
+@PropertySource("classpath:/config.properties")
+@Transactional
+@Service
 public class ArchiveMessageManager implements IArchiveMessageManager {
     
     private final String SORT_FIELD_EXCEPTION_TIME = "exceptionTime";

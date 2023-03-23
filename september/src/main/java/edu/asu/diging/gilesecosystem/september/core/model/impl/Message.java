@@ -2,7 +2,6 @@ package edu.asu.diging.gilesecosystem.september.core.model.impl;
 
 import java.time.ZonedDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -21,7 +20,7 @@ public class Message implements IMessage {
     private MessageType type;
     private String title;
     private String message;
-    @Column(columnDefinition = "clob")
+    
     @Lob
     private String stackTrace;
     private String exceptionTime;
