@@ -84,12 +84,12 @@ public class PersistentContext {
                 new ClassPathScanningCandidateComponentProvider(false);
         scanner.addExcludeFilter(new AssignableTypeFilter(ArchiveMessage.class));
         entityManagerFactoryBean.setResourceLoader(new PathMatchingResourcePatternResolver());
-        entityManagerFactoryBean.setPersistenceUnitPostProcessors(new PersistenceUnitPostProcessor() {
-            @Override
-            public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
-                pui.getManagedClassNames().remove(ArchiveMessage.class.getName());
-            }
-        });
+//        entityManagerFactoryBean.setPersistenceUnitPostProcessors(new PersistenceUnitPostProcessor() {
+//            @Override
+//            public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
+//                pui.getManagedClassNames().remove(ArchiveMessage.class.getName());
+//            }
+//        });
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
 
         return entityManagerFactoryBean;

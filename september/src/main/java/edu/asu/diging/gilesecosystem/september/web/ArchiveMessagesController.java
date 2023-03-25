@@ -34,6 +34,8 @@ public class ArchiveMessagesController {
             return "home";
         }
         List<IArchiveMessage> messages = archiveMessageManager.getMessages(page);
+        System.out.println("Diye Test");
+        System.out.println(messages);
         model.addAttribute("messages", messages);
         model.addAttribute("totalPages", archiveMessageManager.getNumberOfPages());
         model.addAttribute("currentPageValue", page);

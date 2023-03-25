@@ -99,7 +99,6 @@ public class ArchiveMessageDbClient extends DatabaseClient<IArchiveMessage> impl
     public void shutdown() {
         em.close();
         em = null;
-
         try {
             DriverManager.getConnection("jdbc:derby:;shutdown=true");
         } catch (SQLException e) {
