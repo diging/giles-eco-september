@@ -21,7 +21,7 @@ import edu.asu.diging.gilesecosystem.september.core.model.impl.Message;
 import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
 
 @PropertySource("classpath:/config.properties")
-@Transactional
+@Transactional("transactionManager")
 @Service
 public class MessageManager implements IMessageManager {
 

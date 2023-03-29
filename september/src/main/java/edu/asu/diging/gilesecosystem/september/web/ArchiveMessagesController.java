@@ -12,18 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.asu.diging.gilesecosystem.september.core.db.impl.ArchiveMessageDbClient;
+import edu.asu.diging.gilesecosystem.september.core.db.IArchiveMessageDbClient;
 import edu.asu.diging.gilesecosystem.september.core.model.IArchiveMessage;
-import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
-import edu.asu.diging.gilesecosystem.september.core.service.impl.ArchiveMessageManager;
+import edu.asu.diging.gilesecosystem.september.core.service.IArchiveMessageManager;
 
 @Controller
 public class ArchiveMessagesController {
     @Autowired
-    private ArchiveMessageManager archiveMessageManager;
+    private IArchiveMessageManager archiveMessageManager;
     
     @Autowired
-    private ArchiveMessageDbClient archiveMessageDbClient;
+    private IArchiveMessageDbClient archiveMessageDbClient;
     
     @Autowired
     private MessageSource messageSource;
@@ -48,7 +47,10 @@ public class ArchiveMessagesController {
             throws Exception {
         DataTableData dataTableData = new DataTableData();
         dataTableData.setPageSize(archiveMessageManager.getDefaultPageSize());
+        System.out.println(start);
+        System.out.println(archiveMessageManager.getDefaultPageSize());
         int offset = start / archiveMessageManager.getDefaultPageSize();
+        System.out.println(offset);
         
         List<IArchiveMessage> dataTableMessages = null;
         int totalRecords = archiveMessageDbClient.getNumberOfMessages();
@@ -64,6 +66,7 @@ public class ArchiveMessagesController {
         dataTableData.setDraw(draw);
         dataTableData.setArchivedData(dataTableMessages);
         dataTableData.setRecordsTotal(totalRecords);
+        System.out.println("Diya Test in archived/messages");
         return dataTableData;
     }
 }

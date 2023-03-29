@@ -21,7 +21,7 @@ import edu.asu.diging.gilesecosystem.september.core.model.impl.ArchiveMessage;
 import edu.asu.diging.gilesecosystem.september.core.service.IArchiveMessageManager;
 
 @PropertySource("classpath:/config.properties")
-@Transactional
+@Transactional("txmanager_data")
 @Service
 public class ArchiveMessageManager implements IArchiveMessageManager {
     
@@ -47,8 +47,10 @@ public class ArchiveMessageManager implements IArchiveMessageManager {
 
     @Override
     public List<IArchiveMessage> getMessages(int page) {
+        System.out.println(page * pageSize);
         List<ArchiveMessage> results = dbClient.getMessages(page * pageSize, pageSize,
                 SORT_FIELD_EXCEPTION_TIME);
+        System.out.println(results);
         return convertToIArchiveMessages(results);
     }
 
