@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.asu.diging.gilesecosystem.september.core.db.IArchiveMessageDbClient;
-import edu.asu.diging.gilesecosystem.september.core.model.IArchiveMessage;
-import edu.asu.diging.gilesecosystem.september.core.service.IArchiveMessageManager;
+import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
+import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
+import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
 
 @Controller
 public class ArchiveMessagesController {
     @Autowired
-    private IArchiveMessageManager archiveMessageManager;
+    private IMessageManager archiveMessageManager;
     
     @Autowired
-    private IArchiveMessageDbClient archiveMessageDbClient;
+    private IMessageDbClient archiveMessageDbClient;
     
     @Autowired
     private MessageSource messageSource;
@@ -32,7 +32,7 @@ public class ArchiveMessagesController {
         if (principal == null || principal.getName() == null || principal.getName().equals("anonymousUser")) {
             return "home";
         }
-        List<IArchiveMessage> messages = archiveMessageManager.getMessages(page);
+        List<IMessage> messages = archiveMessageManager.getMessages(page);
         System.out.println("Diye Test");
         System.out.println(messages);
         model.addAttribute("messages", messages);
@@ -52,7 +52,7 @@ public class ArchiveMessagesController {
         int offset = start / archiveMessageManager.getDefaultPageSize();
         System.out.println(offset);
         
-        List<IArchiveMessage> dataTableMessages = null;
+        List<IMessage> dataTableMessages = null;
         int totalRecords = archiveMessageDbClient.getNumberOfMessages();
         if (type.trim().isEmpty()) {
             dataTableMessages = archiveMessageManager.getMessages(offset);
@@ -64,7 +64,7 @@ public class ArchiveMessagesController {
         System.out.println(dataTableMessages);
         dataTableMessages.forEach(m -> m.setApplicationId(messageSource.getMessage("appname." + m.getApplicationId(), null, locale)));
         dataTableData.setDraw(draw);
-        dataTableData.setArchivedData(dataTableMessages);
+        dataTableData.setData(dataTableMessages);
         dataTableData.setRecordsTotal(totalRecords);
         System.out.println("Diya Test in archived/messages");
         return dataTableData;

@@ -29,11 +29,12 @@
 			"ajax" : {
 				"url" : "<c:url value="/admin/messages" />",
 				"contentType" : "application/json",
+				"dataSrc" : "systemMessageData",
 				"data" : function(d) {
 					d.type = filter;
 				}
 			},
-			"dataSrc" : "",
+			
 			"columns" : [ {
 				"data" : "applicationId"
 			}, {

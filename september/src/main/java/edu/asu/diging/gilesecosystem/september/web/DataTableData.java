@@ -2,8 +2,8 @@ package edu.asu.diging.gilesecosystem.september.web;
 
 import java.util.List;
 
-import edu.asu.diging.gilesecosystem.september.core.model.IArchiveMessage;
 import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
+import edu.asu.diging.gilesecosystem.september.core.model.ISystemMessage;
 
 /**
  * DataTableData class is for setting and retrieving various 
@@ -17,8 +17,8 @@ public class DataTableData {
     private int draw;
     private int recordsTotal;
     private int recordsFiltered;
+    private List<ISystemMessage> systemMessageData;
     private List<IMessage> data;
-    private List<IArchiveMessage> archivedData;
     private int pageSize;
 
     public int getDraw() {
@@ -37,8 +37,8 @@ public class DataTableData {
         return data;
     }
     
-    public List<IArchiveMessage> getArchiveData() {
-        return archivedData;
+    public List<ISystemMessage> getSystemMessageData() {
+        return systemMessageData;
     }
 
     public void setDraw(int draw) {
@@ -59,8 +59,8 @@ public class DataTableData {
         this.data = data;
     }
     
-    public void setArchivedData(List<IArchiveMessage> archivedData) {
-        this.archivedData = archivedData;
+    public void setSystemMessageData(List<ISystemMessage> systemMessageData) {
+        this.systemMessageData = systemMessageData;
     }
 
     public int getPageSize() {

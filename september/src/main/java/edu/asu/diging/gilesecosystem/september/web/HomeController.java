@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
-import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
-import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
+import edu.asu.diging.gilesecosystem.september.core.db.ISystemMessageDbClient;
+import edu.asu.diging.gilesecosystem.september.core.model.ISystemMessage;
+import edu.asu.diging.gilesecosystem.september.core.service.ISystemMessageManager;
 
 @Controller
 public class HomeController {
 
     @Autowired
-    private IMessageManager messageManager;
+    private ISystemMessageManager messageManager;
 
     @Autowired
-    private IMessageDbClient dbClient;
+    private ISystemMessageDbClient dbClient;
     
     @Autowired
     private MessageSource messageSource;
@@ -34,7 +34,7 @@ public class HomeController {
             return "home";
         }
 
-        List<IMessage> messages = messageManager.getMessages(page);
+        List<ISystemMessage> messages = messageManager.getMessages(page);
         model.addAttribute("messages", messages);
         model.addAttribute("totalPages", messageManager.getNumberOfPages());
         model.addAttribute("currentPageValue", page);
@@ -49,7 +49,7 @@ public class HomeController {
         dataTableData.setPageSize(messageManager.getDefaultPageSize());
         int offset = start / messageManager.getDefaultPageSize();
         
-        List<IMessage> dataTableMessages = null;
+        List<ISystemMessage> dataTableMessages = null;
         int totalRecords = dbClient.getNumberOfMessages();
         if (type.trim().isEmpty()) {
             dataTableMessages = messageManager.getMessages(offset);
@@ -61,7 +61,7 @@ public class HomeController {
 
         dataTableMessages.forEach(m -> m.setApplicationId(messageSource.getMessage("appname." + m.getApplicationId(), null, locale)));
         dataTableData.setDraw(draw);
-        dataTableData.setData(dataTableMessages);
+        dataTableData.setSystemMessageData(dataTableMessages);
         dataTableData.setRecordsTotal(totalRecords);
         return dataTableData;
 

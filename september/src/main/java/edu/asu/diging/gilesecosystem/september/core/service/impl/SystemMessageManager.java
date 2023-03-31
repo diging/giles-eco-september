@@ -14,16 +14,16 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.asu.diging.gilesecosystem.september.core.db.IArchiveMessageDbClient;
-import edu.asu.diging.gilesecosystem.september.core.model.IArchiveMessage;
+import edu.asu.diging.gilesecosystem.september.core.db.ISystemMessageDbClient;
+import edu.asu.diging.gilesecosystem.september.core.model.ISystemMessage;
 import edu.asu.diging.gilesecosystem.september.core.model.MessageType;
-import edu.asu.diging.gilesecosystem.september.core.model.impl.ArchiveMessage;
-import edu.asu.diging.gilesecosystem.september.core.service.IArchiveMessageManager;
+import edu.asu.diging.gilesecosystem.september.core.model.impl.SystemMessage;
+import edu.asu.diging.gilesecosystem.september.core.service.ISystemMessageManager;
 
 @PropertySource("classpath:/config.properties")
-@Transactional("txmanager_data")
+@Transactional("transactionManager")
 @Service
-public class ArchiveMessageManager implements IArchiveMessageManager {
+public class SystemMessageManager implements ISystemMessageManager {
     
     private final String SORT_FIELD_EXCEPTION_TIME = "exceptionTime";
 
@@ -31,11 +31,11 @@ public class ArchiveMessageManager implements IArchiveMessageManager {
     private int pageSize;
     
     @Autowired
-    private IArchiveMessageDbClient dbClient;
+    private ISystemMessageDbClient dbClient;
 
     @Override
-    public List<IArchiveMessage> getAllMessages() {
-        List<ArchiveMessage> results = dbClient.getMessages(0, 100, SORT_FIELD_EXCEPTION_TIME);
+    public List<ISystemMessage> getAllMessages() {
+        List<SystemMessage> results = dbClient.getMessages(0, 100, SORT_FIELD_EXCEPTION_TIME);
         return convertToIArchiveMessages(results);
     }
 
@@ -46,18 +46,18 @@ public class ArchiveMessageManager implements IArchiveMessageManager {
     }
 
     @Override
-    public List<IArchiveMessage> getMessages(int page) {
+    public List<ISystemMessage> getMessages(int page) {
         System.out.println(page * pageSize);
-        List<ArchiveMessage> results = dbClient.getMessages(page * pageSize, pageSize,
+        List<SystemMessage> results = dbClient.getMessages(page * pageSize, pageSize,
                 SORT_FIELD_EXCEPTION_TIME);
         System.out.println(results);
         return convertToIArchiveMessages(results);
     }
 
     @Override
-    public List<IArchiveMessage> getMessages(int offset, String type) {
+    public List<ISystemMessage> getMessages(int offset, String type) {
         List<MessageType> filterType = filterStringToList(type);
-        List<ArchiveMessage> results = dbClient.getFilteredMessages(offset * pageSize, pageSize, filterType, SORT_FIELD_EXCEPTION_TIME);
+        List<SystemMessage> results = dbClient.getFilteredMessages(offset * pageSize, pageSize, filterType, SORT_FIELD_EXCEPTION_TIME);
         return convertToIArchiveMessages(results);
     }
 
@@ -71,11 +71,11 @@ public class ArchiveMessageManager implements IArchiveMessageManager {
         return pageSize;
     }
     
-    private List<IArchiveMessage> convertToIArchiveMessages(List<ArchiveMessage> results) {
-        List<IArchiveMessage> messages = new ArrayList<IArchiveMessage>();
-        results.forEach(new Consumer<IArchiveMessage>() {
+    private List<ISystemMessage> convertToIArchiveMessages(List<SystemMessage> results) {
+        List<ISystemMessage> messages = new ArrayList<ISystemMessage>();
+        results.forEach(new Consumer<ISystemMessage>() {
             @Override
-            public void accept(IArchiveMessage m) {
+            public void accept(ISystemMessage m) {
                 DateTimeFormatter formatter = DateTimeFormatter
                         .ofPattern("E yyyy MM dd, HH:mm:ss");
                 m.setExceptionDateTime(ZonedDateTime.parse(m.getExceptionTime()));

@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import edu.asu.diging.gilesecosystem.september.core.model.impl.ArchiveMessage;
+import edu.asu.diging.gilesecosystem.september.core.model.impl.Message;
 
 @Configuration
 @EnableJpaRepositories(basePackages = {
@@ -82,14 +82,8 @@ public class PersistentContext {
         );
         ClassPathScanningCandidateComponentProvider scanner =
                 new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addExcludeFilter(new AssignableTypeFilter(ArchiveMessage.class));
+        scanner.addExcludeFilter(new AssignableTypeFilter(Message.class));
         entityManagerFactoryBean.setResourceLoader(new PathMatchingResourcePatternResolver());
-//        entityManagerFactoryBean.setPersistenceUnitPostProcessors(new PersistenceUnitPostProcessor() {
-//            @Override
-//            public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
-//                pui.getManagedClassNames().remove(ArchiveMessage.class.getName());
-//            }
-//        });
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
 
         return entityManagerFactoryBean;
