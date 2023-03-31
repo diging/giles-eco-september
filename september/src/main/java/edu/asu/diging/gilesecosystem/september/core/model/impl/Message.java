@@ -38,41 +38,92 @@ public class Message implements IMessage {
         this.id = id;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * edu.asu.diging.gilesecosystem.september.core.model.impl.IMessage#getType()
+     */
     @Override
     public MessageType getType() {
         return type;
     }
-
+   
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * edu.asu.diging.gilesecosystem.september.core.model.impl.IMessage#setType(edu.
+     * asu.diging.gilesecosystem.september.core.model.MessageType)
+     */
     @Override
     public void setType(MessageType type) {
         this.type = type;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * edu.asu.diging.gilesecosystem.september.core.model.impl.IMessage#getTitle()
+     */
     @Override
     public String getTitle() {
         return title;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * edu.asu.diging.gilesecosystem.september.core.model.impl.IMessage#setTitle(
+     * java.lang.String)
+     */
     @Override
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * edu.asu.diging.gilesecosystem.september.core.model.impl.IMessage#getMessage()
+     */
     @Override
     public String getMessage() {
         return message;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * edu.asu.diging.gilesecosystem.september.core.model.impl.IMessage#setMessage(
+     * java.lang.String)
+     */
     @Override
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see edu.asu.diging.gilesecosystem.september.core.model.impl.IMessage#
+     * getStackTrace()
+     */
     @Override
     public String getStackTrace() {
         return stackTrace;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see edu.asu.diging.gilesecosystem.september.core.model.impl.IMessage#
+     * setStackTrace(java.lang.String)
+     */
     @Override
     public void setStackTrace(String stackTrace) {
         this.stackTrace = stackTrace;
