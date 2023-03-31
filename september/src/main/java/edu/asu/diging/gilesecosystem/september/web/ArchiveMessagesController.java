@@ -33,8 +33,6 @@ public class ArchiveMessagesController {
             return "home";
         }
         List<IMessage> messages = archiveMessageManager.getMessages(page);
-        System.out.println("Diye Test");
-        System.out.println(messages);
         model.addAttribute("messages", messages);
         model.addAttribute("totalPages", archiveMessageManager.getNumberOfPages());
         model.addAttribute("currentPageValue", page);
@@ -47,10 +45,7 @@ public class ArchiveMessagesController {
             throws Exception {
         DataTableData dataTableData = new DataTableData();
         dataTableData.setPageSize(archiveMessageManager.getDefaultPageSize());
-        System.out.println(start);
-        System.out.println(archiveMessageManager.getDefaultPageSize());
         int offset = start / archiveMessageManager.getDefaultPageSize();
-        System.out.println(offset);
         
         List<IMessage> dataTableMessages = null;
         int totalRecords = archiveMessageDbClient.getNumberOfMessages();
@@ -61,12 +56,10 @@ public class ArchiveMessagesController {
             dataTableMessages = archiveMessageManager.getMessages(offset, type);
             dataTableData.setRecordsFiltered(archiveMessageManager.getNumberOfFilteredMessages(type));
         }
-        System.out.println(dataTableMessages);
         dataTableMessages.forEach(m -> m.setApplicationId(messageSource.getMessage("appname." + m.getApplicationId(), null, locale)));
         dataTableData.setDraw(draw);
         dataTableData.setData(dataTableMessages);
         dataTableData.setRecordsTotal(totalRecords);
-        System.out.println("Diya Test in archived/messages");
         return dataTableData;
     }
 }

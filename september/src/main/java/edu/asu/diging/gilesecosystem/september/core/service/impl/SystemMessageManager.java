@@ -47,10 +47,8 @@ public class SystemMessageManager implements ISystemMessageManager {
 
     @Override
     public List<ISystemMessage> getMessages(int page) {
-        System.out.println(page * pageSize);
         List<SystemMessage> results = dbClient.getMessages(page * pageSize, pageSize,
                 SORT_FIELD_EXCEPTION_TIME);
-        System.out.println(results);
         return convertToIArchiveMessages(results);
     }
 

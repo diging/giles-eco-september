@@ -83,6 +83,12 @@ public class PersistentContext {
         ClassPathScanningCandidateComponentProvider scanner =
                 new ClassPathScanningCandidateComponentProvider(false);
         scanner.addExcludeFilter(new AssignableTypeFilter(Message.class));
+        entityManagerFactoryBean.setPersistenceUnitPostProcessors(new PersistenceUnitPostProcessor() {
+          @Override
+          public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
+              pui.getManagedClassNames().remove(Message.class.getName());
+          }
+      });
         entityManagerFactoryBean.setResourceLoader(new PathMatchingResourcePatternResolver());
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
 
