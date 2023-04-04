@@ -4,10 +4,10 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script>
-	var messageTable;
+    var messageTable;
 	var filter;
 	function dtConstruction() {
-		messageTable = jQuery('#archivedMessageTable').dataTable({
+		messageTable = jQuery('#messageTable').dataTable({
 			"processing" : true,
 			"serverSide" : true,
 			"paging" : true,
@@ -96,7 +96,7 @@
 					<hr>
 				</div>
 			</form>
-			<table id="archivedMessageTable" class="table table-striped table-bordered" data-page-length='${pageSize}'>
+			<table id="messageTable" class="table table-striped table-bordered" data-page-length='${pageSize}'>
 				<thead>
 					<tr>
 						<th>App Name</th>
