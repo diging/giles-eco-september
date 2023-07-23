@@ -3,17 +3,8 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
-<sec:authorize access="isAnonymous()">
-	<div class="jumbotron col-md-12">
-		<h1>Congratulation!</h1>
-		<p>You did it. This basic webapp is all set up now. Try to login
-			as "admin" with password "admin".</p>
-	</div>
-</sec:authorize>
-
 <script>
-	var messageTable;
+    var messageTable;
 	var filter;
 	function dtConstruction() {
 		messageTable = jQuery('#messageTable').dataTable({
@@ -27,14 +18,13 @@
 			"dom" : '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
 			"deferRender" : true,
 			"ajax" : {
-				"url" : "<c:url value="/admin/messages" />",
+				"url" : "<c:url value="/admin/archived/messages" />",
 				"contentType" : "application/json",
-				"dataSrc" : "systemMessageData",
 				"data" : function(d) {
 					d.type = filter;
 				}
 			},
-			
+			"dataSrc" : "",
 			"columns" : [ {
 				"data" : "applicationId"
 			}, {

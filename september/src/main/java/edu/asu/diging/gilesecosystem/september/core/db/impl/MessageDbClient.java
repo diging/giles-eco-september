@@ -3,6 +3,7 @@ package edu.asu.diging.gilesecosystem.september.core.db.impl;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+
 import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,27 +24,11 @@ import edu.asu.diging.gilesecosystem.util.store.objectdb.DatabaseClient;
 
 @Component
 public class MessageDbClient extends DatabaseClient<IMessage> implements IMessageDbClient {
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
+    
     @PersistenceContext(unitName = "DataPU")
     private EntityManager em;
-
-    @Override
-    protected String getIdPrefix() {
-        return "MSG";
-    }
-
-    @Override
-    protected IMessage getById(String id) {
-        return em.find(Message.class, id);
-    }
-
-    @Override
-    protected EntityManager getClient() {
-        return em;
-    }
-
+    
     @Override
     public List<Message> getMessages() {
         CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -60,19 +45,18 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
         CriteriaQuery<Message> query = builder.createQuery(Message.class);
         Root<Message> root = query.from(Message.class);
         query = query.select(root).orderBy(builder.desc(root.get(sortField)));
-
         TypedQuery<Message> finalQuery = em.createQuery(query);
         finalQuery.setFirstResult(offset).setMaxResults(pageSize);
         return finalQuery.getResultList();
     }
 
     @Override
-    public List<Message> getFilteredMessages(int offset, int pageSize, List<MessageType> filterType, String sortField) {
+    public List<Message> getFilteredMessages(int offset, int pageSize, List<MessageType> filterType,
+            String sortField) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Message> query = builder.createQuery(Message.class);
         Root<Message> root = query.from(Message.class);
         query = query.select(root).where(root.get("type").in(filterType)).orderBy(builder.desc(root.get(sortField)));
-
         TypedQuery<Message> finalQuery = em.createQuery(query);
         finalQuery.setFirstResult(offset).setMaxResults(pageSize);
         return finalQuery.getResultList();
@@ -84,29 +68,41 @@ public class MessageDbClient extends DatabaseClient<IMessage> implements IMessag
         CriteriaQuery<Message> query = builder.createQuery(Message.class);
         Root<Message> root = query.from(Message.class);
         query = query.select(root);
-
         return em.createQuery(query).getResultList().size();
     }
 
+    @Override
+    public int getNumberOfFilteredMessages(List<MessageType> types) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Message> query = builder.createQuery(Message.class);
+        Root<Message> root = query.from(Message.class);
+        query = query.select(root).where(root.get("type").in(types));
+        return em.createQuery(query).getResultList().size();
+    }
+
+    @Override
+    protected String getIdPrefix() {
+        return "MSG";
+    }
+
+    @Override
+    protected IMessage getById(String id) {
+        return em.find(Message.class, id);
+    }
+
+    @Override
+    protected EntityManager getClient() {
+        return em;
+    }
+    
     @PreDestroy
     public void shutdown() {
         em.close();
         em = null;
-
         try {
             DriverManager.getConnection("jdbc:derby:;shutdown=true");
         } catch (SQLException e) {
             logger.error("Derby is shutdown.", e);
         }
-    }
-
-    @Override
-    public int getNumberOfFilteredMessages(List<MessageType> messageType) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Message> query = builder.createQuery(Message.class);
-        Root<Message> root = query.from(Message.class);
-        query = query.select(root).where(root.get("type").in(messageType));
-
-        return em.createQuery(query).getResultList().size();
     }
 }

@@ -7,21 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.asu.diging.gilesecosystem.requests.ISystemMessageRequest;
-import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
-import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
+import edu.asu.diging.gilesecosystem.september.core.db.ISystemMessageDbClient;
+import edu.asu.diging.gilesecosystem.september.core.model.ISystemMessage;
 import edu.asu.diging.gilesecosystem.september.core.model.MessageType;
-import edu.asu.diging.gilesecosystem.september.core.model.impl.Message;
+import edu.asu.diging.gilesecosystem.september.core.model.impl.SystemMessage;
 import edu.asu.diging.gilesecosystem.september.core.service.IRequestProcessor;
 import edu.asu.diging.gilesecosystem.util.exceptions.UnstorableObjectException;
 
-@Transactional
+@Transactional("transactionManager")
 @Service
 public class RequestProcessor implements IRequestProcessor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private IMessageDbClient dbClient;
+    private ISystemMessageDbClient dbClient;
 
     /*
      * (non-Javadoc)
@@ -33,7 +33,7 @@ public class RequestProcessor implements IRequestProcessor {
      */
     @Override
     public void processRequest(ISystemMessageRequest request) {
-        IMessage msg = new Message();
+        ISystemMessage msg = new SystemMessage();
         msg.setId(dbClient.generateId());
         msg.setMessage(request.getMessage());
         msg.setTitle(request.getTitle());

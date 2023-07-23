@@ -12,59 +12,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.asu.diging.gilesecosystem.september.core.db.ISystemMessageDbClient;
-import edu.asu.diging.gilesecosystem.september.core.model.ISystemMessage;
-import edu.asu.diging.gilesecosystem.september.core.service.ISystemMessageManager;
+import edu.asu.diging.gilesecosystem.september.core.db.IMessageDbClient;
+import edu.asu.diging.gilesecosystem.september.core.model.IMessage;
+import edu.asu.diging.gilesecosystem.september.core.service.IMessageManager;
 
 @Controller
-public class HomeController {
-
+public class ArchiveMessagesController {
     @Autowired
-    private ISystemMessageManager messageManager;
-
+    private IMessageManager archiveMessageManager;
+    
     @Autowired
-    private ISystemMessageDbClient dbClient;
+    private IMessageDbClient archiveMessageDbClient;
     
     @Autowired
     private MessageSource messageSource;
-
-    @RequestMapping(value = "/")
+    
+    @RequestMapping(value = "/admin/archived")
     public String home(Principal principal, Model model, @RequestParam(defaultValue = "0") int page) {
         if (principal == null || principal.getName() == null || principal.getName().equals("anonymousUser")) {
             return "home";
         }
-
-        List<ISystemMessage> messages = messageManager.getMessages(page);
+        List<IMessage> messages = archiveMessageManager.getMessages(page);
         model.addAttribute("messages", messages);
-        model.addAttribute("totalPages", messageManager.getNumberOfPages());
+        model.addAttribute("totalPages", archiveMessageManager.getNumberOfPages());
         model.addAttribute("currentPageValue", page);
-        model.addAttribute("pageSize", messageManager.getDefaultPageSize());
-        return "home";
+        model.addAttribute("pageSize", archiveMessageManager.getDefaultPageSize());
+        return "admin/archived";
     }
-
-    @RequestMapping(value = "/admin/messages")
+    
+    @RequestMapping(value = "/admin/archived/messages")
     public @ResponseBody DataTableData doGet(@RequestParam int draw, @RequestParam int start, @RequestParam String type, Locale locale)
             throws Exception {
         DataTableData dataTableData = new DataTableData();
-        dataTableData.setPageSize(messageManager.getDefaultPageSize());
-        int offset = start / messageManager.getDefaultPageSize();
+        dataTableData.setPageSize(archiveMessageManager.getDefaultPageSize());
+        int offset = start / archiveMessageManager.getDefaultPageSize();
         
-        List<ISystemMessage> dataTableMessages = null;
-        int totalRecords = dbClient.getNumberOfMessages();
+        List<IMessage> dataTableMessages = null;
+        int totalRecords = archiveMessageDbClient.getNumberOfMessages();
         if (type.trim().isEmpty()) {
-            dataTableMessages = messageManager.getMessages(offset);
+            dataTableMessages = archiveMessageManager.getMessages(offset);
             dataTableData.setRecordsFiltered(totalRecords);
         } else {
-            dataTableMessages = messageManager.getMessages(offset, type);
-            dataTableData.setRecordsFiltered(messageManager.getNumberOfFilteredMessages(type));
+            dataTableMessages = archiveMessageManager.getMessages(offset, type);
+            dataTableData.setRecordsFiltered(archiveMessageManager.getNumberOfFilteredMessages(type));
         }
-
         dataTableMessages.forEach(m -> m.setApplicationId(messageSource.getMessage("appname." + m.getApplicationId(), null, locale)));
         dataTableData.setDraw(draw);
-        dataTableData.setSystemMessageData(dataTableMessages);
+        dataTableData.setData(dataTableMessages);
         dataTableData.setRecordsTotal(totalRecords);
         return dataTableData;
-
     }
-
 }

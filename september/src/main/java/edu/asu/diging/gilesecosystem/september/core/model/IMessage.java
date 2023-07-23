@@ -39,5 +39,4 @@ public interface IMessage extends IStorableObject {
     public abstract void setApplicationId(String applicationId);
 
     public abstract String getApplicationId();
-
 }

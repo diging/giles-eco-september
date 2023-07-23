@@ -21,6 +21,8 @@
     <definition name="admin/services" extends="base.definition">
         <put-attribute name="content" value="/WEB-INF/views/services.jsp" />    
     </definition>
-	
-	
+    
+    <definition name="admin/archived" extends="base.definition">
+        <put-attribute name="content" value="/WEB-INF/views/archived.jsp" />    
+    </definition>
 </tiles-definitions>

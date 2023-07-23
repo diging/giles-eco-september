@@ -74,6 +74,9 @@
                 <a href="<c:url value="/admin/services" />" >Services</a>
             </li>
           	<li role="presentation">
+                <a href="<c:url value="/admin/archived" />" >Archived Messages</a>
+            </li>
+          	<li role="presentation">
          	 	<form action="<c:url value="/logout" />" method="POST">
          	 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
   				<button class="btn-link" type="submit" title="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
